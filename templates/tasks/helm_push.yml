@@ -1,0 +1,10 @@
+# templates/tasks/helm_push.yml
+parameters:
+  destinationRegistry: ""
+
+steps:
+  - task: Bash@3
+    inputs:
+      targetType: "inline"
+      script: "helm push '$(Build.ArtifactStagingDirectory)/$(chartName)' oci://${{ parameters.destinationRegistry }}"
+    displayName: "Helm Push"
