@@ -1,0 +1,12 @@
+# templates/tasks/helm_package.yml
+parameters:
+  chartPath: ""
+  destination: ""
+
+steps:
+  - task: HelmDeploy@1
+    displayName: "Package Helm Chart"
+    inputs:
+      command: "package"
+      chartPath: ${{ parameters.chartPath }}
+      destination: ${{ parameters.destination }}
