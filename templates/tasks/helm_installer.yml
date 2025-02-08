@@ -1,0 +1,7 @@
+# templates/tasks/helm_installer.yml
+steps:
+  - task: HelmInstaller@0
+    inputs:
+      helmVersion: "3.15.2"
+      checkLatestHelmVersion: false
+      installKubectl: true
