@@ -1,0 +1,16 @@
+# templates/tasks/ermetic_scan.yml
+parameters:
+  imageName: ""
+  registryUsername: ""
+  registryPassword: ""
+
+steps:
+  - task: ErmeticContainerImageScan@1
+    displayName: "Tenable Image Scan"
+    inputs:
+      apiToken: "$(TENABLE_API_TOKEN)"
+      apiUrl: "https://us.app.ermetic.com"
+      logs: true
+      name: ${{ parameters.imageName }}
+      registryUsername: ${{ parameters.registryUsername }}
+      registryPassword: ${{ parameters.registryPassword }}
