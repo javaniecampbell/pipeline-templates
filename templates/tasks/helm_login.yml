@@ -1,0 +1,12 @@
+# templates/tasks/helm_login.yml
+parameters:
+  registry: ""
+  secretVariable: ""
+  userVariable: ""
+
+steps:
+  - task: Bash@3
+    inputs:
+      targetType: "inline"
+      script: "echo $($(secretVariable)) | helm registry login ${{ parameters.registry }} -u $($(userVariable)) --password-stdin"
+    displayName: "Helm Registry Login"
