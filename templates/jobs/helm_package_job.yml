@@ -1,0 +1,45 @@
+# templates/jobs/helm_package_job.yml
+# Job template for packaging and publishing Helm charts
+
+parameters:
+  vmImageName: "ubuntu-latest"
+  chartPath: ""
+  destination: ""
+
+jobs:
+  - job: Helm
+    displayName: "Package and Publish Helm Charts"
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    steps:
+      - template: ../tasks/helm_installer.yml
+      - script: |
+          echo "##vso[task.setvariable variable=prodBuild]true"
+        displayName: "Set Helm Prod Registry Variable"
+        condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+      - script: |
+          pwd
+          ls -R
+        displayName: "List Working Directory Contents"
+      - template: ../tasks/helm_package.yml
+        parameters:
+          chartPath: ${{ parameters.chartPath }}
+          destination: ${{ parameters.destination }}
+      - template: ../tasks/generate_chart_name.yml
+      - script: |
+          pwd
+          ls -R
+        displayName: "List Working Directory Contents (Post Package)"
+      - template: ../tasks/keyvault_pull.yml
+        parameters:
+          azureSubscription: "gr-dev-sharedservices-rg-service-conn"
+          KeyVaultName: "gr-dev-01"
+          SecretsFilter: "aks-acr-sp-id,aks-acr-sp-pwd"
+      - template: ../tasks/helm_login.yml
+        parameters:
+          registry: "$(devHelmChartContainerRegistry)"
+          secretVariable: "aks-acr-sp-pwd"
+          userVariable: "aks-acr-sp-id"
+      - template: ../tasks/helm_push.yml
+        parameters:
+          destinationRegistry: "$(devHelmChartContainerRegistry)"
