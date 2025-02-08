@@ -1,0 +1,12 @@
+# templates/tasks/java_tool_installer.yml
+parameters:
+  versionSpec: "21"
+  jdkArchitectureOption: "x64"
+  jdkSourceOption: "PreInstalled"
+
+steps:
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: ${{ parameters.versionSpec }}
+      jdkArchitectureOption: ${{ parameters.jdkArchitectureOption }}
+      jdkSourceOption: ${{ parameters.jdkSourceOption }}
