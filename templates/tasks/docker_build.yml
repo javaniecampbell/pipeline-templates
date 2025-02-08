@@ -1,0 +1,19 @@
+# templates/tasks/docker_build.yml
+parameters:
+  dockerfilePath: ""
+  repository: ""
+  containerRegistry: ""
+  tags: ""
+  additionalArgs: ""
+
+steps:
+  - task: Docker@2
+    displayName: "Build Docker Image"
+    inputs:
+      command: build
+      dockerfile: ${{ parameters.dockerfilePath }}
+      repository: ${{ parameters.repository }}
+      containerRegistry: ${{ parameters.containerRegistry }}
+      arguments: ${{ parameters.additionalArgs }}
+      tags: |
+        ${{ parameters.tags }}
