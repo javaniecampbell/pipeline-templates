@@ -1,0 +1,25 @@
+# templates/tasks/maven_test.yml
+parameters:
+  mavenPomFile: ""
+  goals: ""
+  testResultsFiles: ""
+  javaHomeOption: "Path"
+  jdkDirectory: ""
+  mavenVersionOption: "Default"
+  mavenOptions: ""
+
+steps:
+  - task: Maven@3
+    displayName: "Execute Unit Tests"
+    inputs:
+      mavenPomFile: ${{ parameters.mavenPomFile }}
+      goals: ${{ parameters.goals }}
+      publishJUnitResults: true
+      testResultsFiles: ${{ parameters.testResultsFiles }}
+      javaHomeOption: ${{ parameters.javaHomeOption }}
+      jdkDirectory: ${{ parameters.jdkDirectory }}
+      mavenVersionOption: ${{ parameters.mavenVersionOption }}
+      mavenOptions: ${{ parameters.mavenOptions }}
+      mavenAuthenticateFeed: false
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: false
