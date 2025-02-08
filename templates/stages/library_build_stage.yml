@@ -1,0 +1,23 @@
+# templates/stages/library_build_stage.yml
+# Stage template for the Java 21 Library pipeline.
+
+parameters:
+  vmImageName: "ubuntu-latest"
+
+stages:
+  - stage: Build
+    displayName: "Build Stage - Library Pipeline"
+    jobs:
+      - template: ../jobs/java_tests_job.yml
+        parameters:
+          vmImageName: ${{ parameters.vmImageName }}
+          mavenPomFile: "pom.xml"
+          goals: "test"
+          testResultsFiles: "**/TEST-*.xml"
+          MAVEN_OPTS: "-Dmaven.compiler.release=21"
+      - template: ../jobs/maven_deploy_job.yml
+        parameters:
+          vmImageName: ${{ parameters.vmImageName }}
+          mavenPomFile: "pom.xml"
+          goals: "deploy -Dmaven.antrun.skip=true"
+          mavenOptions: "-Xmx3072m"
