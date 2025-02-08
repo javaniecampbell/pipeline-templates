@@ -1,0 +1,9 @@
+# templates/tasks/maven_authenticate.yml
+parameters:
+  artifactsFeeds: ""
+
+steps:
+  - task: MavenAuthenticate@0
+    displayName: "Authenticate with Azure Artifacts"
+    inputs:
+      artifactsFeeds: ${{ parameters.artifactsFeeds }}
