@@ -1,0 +1,33 @@
+#### File: `azure-pipelines.yml`
+# azure-pipelines.yml
+# This is an example pipeline file that consumes the centralized templates.
+####
+trigger:
+  branches:
+    include:
+      - develop
+      - release/*
+  tags:
+    include:
+      - "*"
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: YourOrg/pipeline-templates
+      ref: refs/heads/main
+
+variables:
+  vmImageName: "ubuntu-latest"
+  dockerRegistryServiceConnection: "20240904-gr-dev-agile-01-serv-conn"
+  imageRepository: "spring-boot-template"
+  containerRegistry: "grdevagile01.azurecr.io"
+
+stages:
+  - template: templates/stages/java_build_stage.yml@templates
+    parameters:
+      vmImageName: $(vmImageName)
+      dockerRegistryServiceConnection: $(dockerRegistryServiceConnection)
+      imageRepository: $(imageRepository)
+      containerRegistry: $(containerRegistry)
