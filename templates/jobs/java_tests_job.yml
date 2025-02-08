@@ -1,0 +1,34 @@
+# templates/jobs/java_tests_job.yml
+# Job template for executing Java tests
+
+parameters:
+  vmImageName: "ubuntu-latest"
+  mavenPomFile: ""
+  goals: ""
+  testResultsFiles: ""
+  MAVEN_OPTS: ""
+
+jobs:
+  - job: Tests
+    displayName: "Execute Tests"
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    steps:
+      - template: ../tasks/java_tool_installer.yml
+        parameters:
+          versionSpec: "21"
+      - template: ../tasks/maven_authenticate.yml
+        parameters:
+          artifactsFeeds: "AD_Applications_Feed"
+      - template: ../tasks/maven_test.yml
+        parameters:
+          mavenPomFile: ${{ parameters.mavenPomFile }}
+          goals: ${{ parameters.goals }}
+          testResultsFiles: ${{ parameters.testResultsFiles }}
+          javaHomeOption: "Path"
+          jdkDirectory: "/usr/lib/jvm/temurin-21-jdk-amd64"
+          mavenVersionOption: "Default"
+          mavenOptions: "-Xmx3072m"
+      - template: ../tasks/publish_code_coverage.yml
+        parameters:
+          summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/jacoco/jacoco.xml"
