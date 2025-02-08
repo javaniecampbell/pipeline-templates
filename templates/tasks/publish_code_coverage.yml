@@ -1,0 +1,9 @@
+# templates/tasks/publish_code_coverage.yml
+parameters:
+  summaryFileLocation: ""
+
+steps:
+  - task: PublishCodeCoverageResults@2
+    inputs:
+      summaryFileLocation: ${{ parameters.summaryFileLocation }}
+      failIfCoverageEmpty: true
