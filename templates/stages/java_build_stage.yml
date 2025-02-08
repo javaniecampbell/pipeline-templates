@@ -1,0 +1,31 @@
+# templates/stages/java_build_stage.yml
+# Stage template for the Java 21 Spring Boot pipeline.
+
+parameters:
+  vmImageName: "ubuntu-latest"
+  dockerRegistryServiceConnection: ""
+  imageRepository: ""
+  containerRegistry: ""
+
+stages:
+  - stage: Build
+    displayName: "Build Stage - Spring Boot Pipeline"
+    jobs:
+      - template: ../jobs/java_tests_job.yml
+        parameters:
+          vmImageName: ${{ parameters.vmImageName }}
+          mavenPomFile: "pom.xml"
+          goals: "clean test"
+          testResultsFiles: "**/surefire-reports/TEST-*.xml"
+          MAVEN_OPTS: "-Dmaven.compiler.release=21"
+      - template: ../jobs/helm_package_job.yml
+        parameters:
+          vmImageName: ${{ parameters.vmImageName }}
+          chartPath: "helm-chart"
+          destination: "$(Build.ArtifactStagingDirectory)"
+      - template: ../jobs/docker_build_job.yml
+        parameters:
+          vmImageName: ${{ parameters.vmImageName }}
+          dockerRegistryServiceConnection: ${{ parameters.dockerRegistryServiceConnection }}
+          imageRepository: ${{ parameters.imageRepository }}
+          containerRegistry: ${{ parameters.containerRegistry }}
