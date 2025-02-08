@@ -1,0 +1,32 @@
+# templates/jobs/aks_deploy_job.yml
+# This job template defines a deployment job for AKS targeting PR/support builds.
+# It executes a deployment script (e.g., deploy_springboot.sh) with a specified action ("deploy" or "cleanup").
+#
+# Parameters:
+#   vmImageName: The build agent VM image to use.
+#   environmentName: The Azure DevOps environment name (e.g., 'pr-testing').
+#   deployScriptPath: The path to the deployment script.
+#   deployAction: The action to execute ("deploy" or "cleanup"). Default is "deploy".
+#   artifactPath: (Optional) The path to the artifact to be deployed.
+#
+parameters:
+  vmImageName: "ubuntu-latest"
+  environmentName: ""
+  deployScriptPath: ""
+  deployAction: "deploy"
+  artifactPath: ""
+
+jobs:
+  - deployment: DeployJob
+    displayName: "Execute AKS Deployment - ${{ parameters.deployAction }}"
+    environment: ${{ parameters.environmentName }}
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - script: |
+                echo "Starting AKS deployment action: ${{ parameters.deployAction }}"
+                bash ${{ parameters.deployScriptPath }} ${{ parameters.deployAction }}
+              displayName: "Run AKS Deployment Script"
