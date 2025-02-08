@@ -1,0 +1,32 @@
+# templates/jobs/maven_deploy_job.yml
+# Job template for deploying the library artifact via Maven
+
+parameters:
+  vmImageName: "ubuntu-latest"
+  mavenPomFile: ""
+  goals: ""
+  mavenOptions: ""
+
+jobs:
+  - job: Build_Library
+    displayName: "Build and Publish Maven Artifact"
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    steps:
+      - template: ../tasks/java_tool_installer.yml
+        parameters:
+          versionSpec: "21"
+      - task: MavenAuthenticate@0
+        displayName: "Authenticate with Azure Artifacts"
+        inputs:
+          artifactsFeeds: "AD_Applications_Feed"
+      - task: Maven@3
+        displayName: "Deploy JAR to Artifacts Feed"
+        inputs:
+          mavenPomFile: ${{ parameters.mavenPomFile }}
+          goals: ${{ parameters.goals }}
+          publishJUnitResults: false
+          mavenAuthenticateFeed: true
+          effectivePomSkip: true
+          sonarQubeRunAnalysis: false
+          mavenOptions: ${{ parameters.mavenOptions }}
