@@ -1,0 +1,15 @@
+# templates/tasks/docker_push.yml
+parameters:
+  repository: ""
+  containerRegistry: ""
+  tags: ""
+
+steps:
+  - task: Docker@2
+    displayName: "Push Docker Image"
+    inputs:
+      command: push
+      repository: ${{ parameters.repository }}
+      containerRegistry: ${{ parameters.containerRegistry }}
+      tags: |
+        ${{ parameters.tags }}
