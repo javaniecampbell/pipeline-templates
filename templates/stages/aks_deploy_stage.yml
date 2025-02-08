@@ -1,0 +1,30 @@
+# templates/stages/aks_deploy_stage.yml
+# This stage template defines a dedicated deployment stage for PR/support builds targeting AKS.
+# It leverages a deployment job to execute a deployment script (e.g., deploy_springboot.sh)
+# with a specified action ("deploy" or "cleanup").
+#
+# Parameters:
+#   vmImageName: The build agent VM image to use.
+#   environmentName: The name of the Azure DevOps environment (e.g., 'pr-testing' or 'staging').
+#   deployScriptPath: The path to the deployment script (e.g., scripts/deploy_springboot.sh).
+#   deployAction: The action to perform ("deploy" or "cleanup"). Default is "deploy".
+#   artifactPath: (Optional) Path to the artifact(s) to be deployed.
+#
+parameters:
+  vmImageName: "ubuntu-latest"
+  environmentName: ""
+  deployScriptPath: ""
+  deployAction: "deploy"
+  artifactPath: ""
+
+stages:
+  - stage: Deploy
+    displayName: "Deploy to ${{ parameters.environmentName }}"
+    jobs:
+      - template: templates/jobs/aks_deploy_job.yml@templates
+        parameters:
+          vmImageName: ${{ parameters.vmImageName }}
+          environmentName: ${{ parameters.environmentName }}
+          deployScriptPath: ${{ parameters.deployScriptPath }}
+          deployAction: ${{ parameters.deployAction }}
+          artifactPath: ${{ parameters.artifactPath }}
