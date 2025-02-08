@@ -1,0 +1,8 @@
+# templates/variables/java_common_variables.yml
+variables:
+  tag: latest
+  appVersion: "0.0.1"
+  appEnv: "dev"
+  vmImageName: "ubuntu-latest"
+  mavenVersion: "3.9.5"
+  javaVersion: "21"
