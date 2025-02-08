@@ -1,0 +1,23 @@
+# base-library-azure-pipelines.yml
+# Base pipeline template for Java 21 Library projects.
+# This template uses a stage template to compose the full pipeline.
+#
+# Parameters:
+#   vmImageName: Build agent VM image.
+
+parameters:
+  vmImageName: "ubuntu-latest"
+
+trigger:
+  branches:
+    include:
+      - develop
+      - release/*
+  tags:
+    include:
+      - "*"
+
+stages:
+  - template: templates/stages/library_build_stage.yml@templates
+    parameters:
+      vmImageName: ${{ parameters.vmImageName }}

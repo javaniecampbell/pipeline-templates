@@ -1,0 +1,47 @@
+# base-springboot-pipeline.yml
+# Base pipeline template for Java 21 Spring Boot 3 applications.
+# This template uses a stage template to compose the full pipeline.
+#
+# Parameters:
+#   vmImageName: Build agent VM image.
+#   dockerRegistryServiceConnection: Service connection for the dev/QA Docker registry.
+#   prodDockerRegistryServiceConnection: Service connection for the production Docker registry.
+#   imageRepository: Docker image repository name.
+#   containerRegistry: Production container registry URL.
+#   devHelmChartContainerRegistry: Development Helm chart registry.
+#   prodHelmChartContainerRegistry: Production Helm chart registry.
+#   helmChartPath: Path to the Helm chart.
+#   artifactDestination: Destination folder for packaged artifacts.
+
+parameters:
+  vmImageName: "ubuntu-latest"
+  dockerRegistryServiceConnection: ""
+  prodDockerRegistryServiceConnection: ""
+  imageRepository: ""
+  containerRegistry: ""
+  devHelmChartContainerRegistry: ""
+  prodHelmChartContainerRegistry: ""
+  helmChartPath: "helm-chart"
+  artifactDestination: "$(Build.ArtifactStagingDirectory)"
+
+trigger:
+  branches:
+    include:
+      - develop
+      - release/*
+  tags:
+    include:
+      - "*"
+
+stages:
+  - template: templates/stages/java_build_stage.yml@templates
+    parameters:
+      vmImageName: ${{ parameters.vmImageName }}
+      dockerRegistryServiceConnection: ${{ parameters.dockerRegistryServiceConnection }}
+      prodDockerRegistryServiceConnection: ${{ parameters.prodDockerRegistryServiceConnection }}
+      imageRepository: ${{ parameters.imageRepository }}
+      containerRegistry: ${{ parameters.containerRegistry }}
+      devHelmChartContainerRegistry: ${{ parameters.devHelmChartContainerRegistry }}
+      prodHelmChartContainerRegistry: ${{ parameters.prodHelmChartContainerRegistry }}
+      helmChartPath: ${{ parameters.helmChartPath }}
+      artifactDestination: ${{ parameters.artifactDestination }}
