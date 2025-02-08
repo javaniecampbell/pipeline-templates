@@ -1,0 +1,11 @@
+parameters:
+  imageRepository: "spring-boot-template"
+
+variables:
+  vmImageName: "ubuntu-latest"
+  dockerRegistryServiceConnection: "20240904-gr-dev-agile-01-serv-conn"
+  prodDockerRegistryServiceConnection: "azdevopsagile01-ACR Connection"
+  imageRepository: ${{ parameters.imageRepository }}
+  containerRegistry: "grdevagile01.azurecr.io"
+  devHelmChartContainerRegistry: "grdevagile02.azurecr.io/helm"
+  prodHelmChartContainerRegistry: "azdevopsagile01.azurecr.io/helm"
