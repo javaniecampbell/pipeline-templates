@@ -1,0 +1,14 @@
+# templates/tasks/keyvault_pull.yml
+parameters:
+  azureSubscription: ""
+  KeyVaultName: ""
+  SecretsFilter: ""
+
+steps:
+  - task: AzureKeyVault@2
+    inputs:
+      azureSubscription: ${{ parameters.azureSubscription }}
+      KeyVaultName: ${{ parameters.KeyVaultName }}
+      SecretsFilter: ${{ parameters.SecretsFilter }}
+      RunAsPreJob: true
+    displayName: "Pull Secrets from Key Vault"
