@@ -135,8 +135,8 @@ extends:
 
 ## Additional Resources
 
-- [Baseline Pipelines Architecture Documentation](https://learn.microsoft.com/en-us/azure/devops/pipelines/architectures/devops-pipelines-baseline-architecture?view=azure-devops) citeturn0search0
-- [Azure DevOps Pipeline Templates – Includes and Extends](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops) citeturn0search2
+- [Baseline Pipelines Architecture Documentation](https://learn.microsoft.com/en-us/azure/devops/pipelines/architectures/devops-pipelines-baseline-architecture?view=azure-devops)
+- [Azure DevOps Pipeline Templates – Includes and Extends](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops) 
 
 This README serves as a guide to help you quickly onboard yourselves to the centralized pipeline templates and understand how to extend them in your projects, with step-by-step instructions on how to consume the templates using the `resources` and `extends` blocks, along with usage examples for both the Spring Boot and Library base templates.
 
