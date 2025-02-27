@@ -12,6 +12,8 @@
 #   prodHelmChartContainerRegistry: Production Helm chart registry.
 #   helmChartPath: Path to the Helm chart.
 #   artifactDestination: Destination folder for packaged artifacts.
+#   deployScriptPath: (Optional) Path to the deployment script.
+#
 
 parameters:
   vmImageName: "ubuntu-latest"
@@ -23,6 +25,7 @@ parameters:
   prodHelmChartContainerRegistry: ""
   helmChartPath: "helm-chart"
   artifactDestination: "$(Build.ArtifactStagingDirectory)"
+  deployScriptPath: "" # Optional: specify a script to run during deployment
 
 trigger:
   branches:
@@ -45,3 +48,10 @@ stages:
       prodHelmChartContainerRegistry: ${{ parameters.prodHelmChartContainerRegistry }}
       helmChartPath: ${{ parameters.helmChartPath }}
       artifactDestination: ${{ parameters.artifactDestination }}
+
+  - template: templates/stages/deployment_stage.yml@templates
+    parameters:
+      vmImageName: ${{ parameters.vmImageName }}
+      environmentName: ${{ parameters.deployEnvironment }}
+      deployScriptPath: ${{ parameters.deployScriptPath }}
+      artifactPath: ${{ parameters.artifactDestination }}
