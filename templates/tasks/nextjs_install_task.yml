@@ -1,0 +1,11 @@
+# templates/tasks/nextjs_install_task.yml
+parameters:
+  installCommand: "npm install"
+steps:
+  - task: Bash@3
+    displayName: "Install Next.js Dependencies"
+    inputs:
+      targetType: "inlineScript"
+      script: |
+        echo "Running dependency install: ${{ parameters.installCommand }}"
+        ${{ parameters.installCommand }}
