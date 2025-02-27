@@ -1,0 +1,47 @@
+# base-functionapp-pipeline.yml
+parameters:
+  vmImageName: "ubuntu-latest"
+  mavenPomFile: "pom.xml"
+  artifactDestination: "$(Build.ArtifactStagingDirectory)"
+  functionAppName: ""
+  azureSubscription: ""
+  resourceGroup: ""
+  deployScriptPath: "scripts/deploy_functionapp.sh"
+  deployEnvironment: "function-testing"
+  # Parameters for static analysis and telemetry:
+  sonarProjectKey: ""
+  sonarProjectName: ""
+  sonarHostUrl: "https://sonarcloud.io"
+  sonarLogin: ""
+  telemetryEndpoint: ""
+
+trigger:
+  branches:
+    include:
+      - develop
+      - release/*
+  tags:
+    include:
+      - "*"
+
+stages:
+  - template: templates/stages/functionapp_v2.5_build_stage.yml@templates
+    parameters:
+      vmImageName: ${{ parameters.vmImageName }}
+      mavenPomFile: ${{ parameters.mavenPomFile }}
+      artifactDestination: ${{ parameters.artifactDestination }}
+      sonarProjectKey: ${{ parameters.sonarProjectKey }}
+      sonarProjectName: ${{ parameters.sonarProjectName }}
+      sonarHostUrl: ${{ parameters.sonarHostUrl }}
+      sonarLogin: ${{ parameters.sonarLogin }}
+      telemetryEndpoint: ${{ parameters.telemetryEndpoint }}
+
+  - template: templates/stages/functionapp_v2.5_deploy_stage.yml@templates
+    parameters:
+      vmImageName: ${{ parameters.vmImageName }}
+      environmentName: ${{ parameters.deployEnvironment }}
+      deployScriptPath: ${{ parameters.deployScriptPath }}
+      artifactPath: ${{ parameters.artifactDestination }}
+      functionAppName: ${{ parameters.functionAppName }}
+      azureSubscription: ${{ parameters.azureSubscription }}
+      resourceGroup: ${{ parameters.resourceGroup }}
