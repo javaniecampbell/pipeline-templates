@@ -31,3 +31,33 @@ stages:
       dockerRegistryServiceConnection: $(dockerRegistryServiceConnection)
       imageRepository: $(imageRepository)
       containerRegistry: $(containerRegistry)
+
+
+# trigger:
+#   branches:
+#     include:
+#       - develop
+#       - release/*
+
+# resources:
+#   repositories:
+#     - repository: templates
+#       type: git
+#       name: YourOrg/pipeline-templates   # Replace with your organization/repository name
+#       ref: refs/heads/main
+
+extends:
+  template: base-springboot-pipeline.yml@templates
+  parameters:
+    vmImageName: 'ubuntu-latest'
+    dockerRegistryServiceConnection: '20240904-gr-dev-agile-01-serv-conn'
+    prodDockerRegistryServiceConnection: 'azdevopsagile01-ACR Connection'
+    imageRepository: 'spring-boot-template'
+    containerRegistry: 'grdevagile01.azurecr.io'
+    devHelmChartContainerRegistry: 'grdevagile02.azurecr.io/helm'
+    prodHelmChartContainerRegistry: 'azdevopsagile01.azurecr.io/helm'
+    helmChartPath: 'helm-chart'
+    artifactDestination: '$(Build.ArtifactStagingDirectory)'
+    deployEnvironment: 'staging'
+    deployScriptPath: 'scripts/deploy_springboot.sh'  # Optional: path to your deploy script
+
