@@ -1,0 +1,21 @@
+# templates/tasks/send_telemetry.yml
+parameters:
+  telemetryEndpoint: ""
+  buildNumber: "$(Build.BuildNumber)"
+  buildDuration: "" # Custom value: calculate or pass as parameter
+  status: ""
+
+steps:
+  - task: Bash@3
+    displayName: "Send Telemetry Data"
+    inputs:
+      targetType: "inlineScript"
+      script: |
+        # Example: sending telemetry via a POST request
+        curl -X POST ${{ parameters.telemetryEndpoint }} \
+             -H "Content-Type: application/json" \
+             -d '{
+                   "buildNumber": "'${{ parameters.buildNumber }}'",
+                   "buildDuration": "'${{ parameters.buildDuration }}'",
+                   "status": "'${{ parameters.status }}'"
+                 }'
