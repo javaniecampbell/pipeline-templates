@@ -1,0 +1,43 @@
+# templates/stages/functionapp_deploy_stage.yml
+# Stage template for deploying a Java-based Function App.
+# It uses a deployment job to execute a deployment script.
+#
+# Parameters:
+#   vmImageName: Build agent VM image.
+#   environmentName: Azure DevOps environment name (for approvals/gates).
+#   deployScriptPath: Path to the deployment script.
+#   artifactPath: Path to the build artifacts.
+#   functionAppName: The name of the Azure Function App.
+#   azureSubscription: The Azure service connection.
+#   resourceGroup: The resource group for the Function App.
+#
+parameters:
+  vmImageName: "ubuntu-latest"
+  environmentName: ""
+  deployScriptPath: ""
+  artifactPath: ""
+  functionAppName: ""
+  azureSubscription: ""
+  resourceGroup: ""
+
+stages:
+  - stage: Deploy
+    displayName: "Deploy Stage - Function App"
+    jobs:
+      - deployment: FunctionAppDeploy
+        displayName: "Deploy Function App"
+        environment: ${{ parameters.environmentName }}
+        pool:
+          vmImage: ${{ parameters.vmImageName }}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: |
+                    echo "Deploying Function App: ${{ parameters.functionAppName }}"
+                    bash ${{ parameters.deployScriptPath }} \
+                      ${{ parameters.functionAppName }} \
+                      ${{ parameters.azureSubscription }} \
+                      ${{ parameters.resourceGroup }} \
+                      ${{ parameters.artifactPath }}
+                  displayName: "Run Function App Deployment Script"
