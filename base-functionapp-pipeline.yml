@@ -1,0 +1,50 @@
+# base-functionapp-pipeline.yml
+# Base pipeline template for a Java-based Function App.
+# It uses a build stage template to run tests/package the Function App,
+# and a deploy stage template to deploy the Function App.
+#
+# Parameters:
+#   vmImageName: The build agent VM image.
+#   mavenPomFile: The path to the pom.xml file.
+#   artifactDestination: Folder where build artifacts will be stored.
+#   functionAppName: The name of the Azure Function App.
+#   azureSubscription: The Azure service connection to use for deployment.
+#   resourceGroup: The Azure resource group where the function app resides.
+#   deployScriptPath: Path to the deployment script (e.g., scripts/deploy_functionapp.sh).
+#   deployEnvironment: The name of the Azure DevOps environment (e.g., 'function-testing').
+#
+parameters:
+  vmImageName: "ubuntu-latest"
+  mavenPomFile: "pom.xml"
+  artifactDestination: "$(Build.ArtifactStagingDirectory)"
+  functionAppName: ""
+  azureSubscription: ""
+  resourceGroup: ""
+  deployScriptPath: "scripts/deploy_functionapp.sh"
+  deployEnvironment: "function-testing"
+
+trigger:
+  branches:
+    include:
+      - develop
+      - release/*
+  tags:
+    include:
+      - "*"
+
+stages:
+  - template: templates/stages/functionapp_build_stage.yml@templates
+    parameters:
+      vmImageName: ${{ parameters.vmImageName }}
+      mavenPomFile: ${{ parameters.mavenPomFile }}
+      artifactDestination: ${{ parameters.artifactDestination }}
+
+  - template: templates/stages/functionapp_deploy_stage.yml@templates
+    parameters:
+      vmImageName: ${{ parameters.vmImageName }}
+      environmentName: ${{ parameters.deployEnvironment }}
+      deployScriptPath: ${{ parameters.deployScriptPath }}
+      artifactPath: ${{ parameters.artifactDestination }}
+      functionAppName: ${{ parameters.functionAppName }}
+      azureSubscription: ${{ parameters.azureSubscription }}
+      resourceGroup: ${{ parameters.resourceGroup }}
