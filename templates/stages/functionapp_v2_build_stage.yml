@@ -1,0 +1,16 @@
+# templates/stages/functionapp_build_stage.yml
+# Stage template for building a Java Function App.
+parameters:
+  vmImageName: "ubuntu-latest"
+  mavenPomFile: ""
+  artifactDestination: ""
+
+stages:
+  - stage: Build
+    displayName: "Build Stage - Function App"
+    jobs:
+      - template: ../jobs/functionapp_build_job.yml
+        parameters:
+          vmImageName: ${{ parameters.vmImageName }}
+          mavenPomFile: ${{ parameters.mavenPomFile }}
+          artifactPath: ${{ parameters.artifactDestination }}
