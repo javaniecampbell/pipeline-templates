@@ -1,0 +1,31 @@
+# templates/tasks/store_metadata_to_blob.yml
+# This task template uploads a specified metadata file (default: artifact-metadata.json)
+# to an Azure Blob Storage container. It uses the AzureCLI@2 task.
+#
+# Parameters:
+#   storageAccountName: The name of the Azure Storage Account.
+#   storageContainerName: The name of the Blob Container.
+#   metadataFile: The path to the metadata file to upload (default: artifact-metadata.json).
+#   blobNamePrefix: A prefix for the blob name (default: artifact-metadata).
+#
+parameters:
+  storageAccountName: ""
+  storageContainerName: ""
+  metadataFile: "artifact-metadata.json"
+  blobNamePrefix: "artifact-metadata"
+
+steps:
+  - task: AzureCLI@2
+    displayName: "Upload Metadata to Blob Storage"
+    inputs:
+      azureSubscription: "$(AzureSubscriptionForBlob)" # Define this variable in your pipeline or variable group
+      scriptType: "bash"
+      scriptLocation: "inlineScript"
+      inlineScript: |
+        echo "Uploading ${{ parameters.metadataFile }} to Blob Storage..."
+        az storage blob upload \
+          --account-name ${{ parameters.storageAccountName }} \
+          --container-name ${{ parameters.storageContainerName }} \
+          --file ${{ parameters.metadataFile }} \
+          --name ${{ parameters.blobNamePrefix }}-$(Build.BuildNumber).json \
+          --auth-mode login
