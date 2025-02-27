@@ -1,0 +1,25 @@
+# templates/tasks/maven_build_functionapp.yml
+parameters:
+  mavenPomFile: ""
+  goals: "clean package"
+  testResultsFiles: "**/surefire-reports/TEST-*.xml"
+  javaHomeOption: "Path"
+  jdkDirectory: "/usr/lib/jvm/temurin-21-jdk-amd64"
+  mavenVersionOption: "Default"
+  mavenOptions: "-Xmx3072m"
+
+steps:
+  - task: Maven@3
+    displayName: "Build Function App with Maven"
+    inputs:
+      mavenPomFile: ${{ parameters.mavenPomFile }}
+      goals: ${{ parameters.goals }}
+      publishJUnitResults: true
+      testResultsFiles: ${{ parameters.testResultsFiles }}
+      javaHomeOption: ${{ parameters.javaHomeOption }}
+      jdkDirectory: ${{ parameters.jdkDirectory }}
+      mavenVersionOption: ${{ parameters.mavenVersionOption }}
+      mavenOptions: ${{ parameters.mavenOptions }}
+      mavenAuthenticateFeed: false
+      effectivePomSkip: false
+      sonarQubeRunAnalysis: false
