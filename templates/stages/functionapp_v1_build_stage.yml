@@ -1,0 +1,48 @@
+# templates/stages/functionapp_build_stage.yml
+# Stage template for building a Java-based Function App.
+# It runs tests, compiles the function app, and publishes build artifacts.
+#
+# Parameters:
+#   vmImageName: Build agent VM image.
+#   mavenPomFile: Path to the pom.xml file.
+#   artifactDestination: Directory where artifacts will be stored.
+#
+parameters:
+  vmImageName: "ubuntu-latest"
+  mavenPomFile: ""
+  artifactDestination: ""
+
+stages:
+  - stage: Build
+    displayName: "Build Stage - Function App"
+    jobs:
+      - job: FunctionAppBuild
+        displayName: "Build and Test Function App"
+        pool:
+          vmImage: ${{ parameters.vmImageName }}
+        steps:
+          - task: JavaToolInstaller@0
+            inputs:
+              versionSpec: "21"
+              jdkArchitectureOption: "x64"
+              jdkSourceOption: "PreInstalled"
+          - task: MavenAuthenticate@0
+            displayName: "Authenticate with Azure Artifacts"
+            inputs:
+              artifactsFeeds: "AD_Applications_Feed"
+          - task: Maven@3
+            displayName: "Run Tests and Package Function App"
+            inputs:
+              mavenPomFile: ${{ parameters.mavenPomFile }}
+              goals: "clean package"
+              publishJUnitResults: true
+              testResultsFiles: "**/surefire-reports/TEST-*.xml"
+              javaHomeOption: "Path"
+              jdkDirectory: "/usr/lib/jvm/temurin-21-jdk-amd64"
+              mavenVersionOption: "Default"
+              mavenOptions: "-Xmx3072m"
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Build Artifacts"
+            inputs:
+              PathtoPublish: ${{ parameters.artifactDestination }}
+              ArtifactName: "functionapp-artifacts"
