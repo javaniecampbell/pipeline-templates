@@ -1,0 +1,21 @@
+# templates/jobs/nextjs_prod_build_job.yml
+parameters:
+  vmImageName: "ubuntu-latest"
+  installCommand: "npm install"
+  buildCommand: "npm run build"
+  artifactPath: ""
+steps:
+  - job: NextJsBuild
+    displayName: "Build Next.js App"
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    steps:
+      - template: ../tasks/nextjs_install.yml
+        parameters:
+          installCommand: ${{ parameters.installCommand }}
+      - template: ../tasks/nextjs_build.yml
+        parameters:
+          buildCommand: ${{ parameters.buildCommand }}
+      - template: ../tasks/publish_build_artifacts.yml
+        parameters:
+          artifactPath: ${{ parameters.artifactPath }}
