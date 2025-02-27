@@ -1,0 +1,27 @@
+# templates/stages/functionapp_build_stage.yml
+parameters:
+  vmImageName: "ubuntu-latest"
+  mavenPomFile: ""
+  artifactDestination: ""
+  artifactsFeeds: "AD_Applications_Feed"
+  sonarProjectKey: ""
+  sonarProjectName: ""
+  sonarHostUrl: "https://sonarcloud.io"
+  sonarLogin: ""
+  telemetryEndpoint: ""
+
+stages:
+  - stage: Build
+    displayName: "Build Stage - Function App"
+    jobs:
+      - template: ../jobs/functionapp_v2_build_job.yml
+        parameters:
+          vmImageName: ${{ parameters.vmImageName }}
+          mavenPomFile: ${{ parameters.mavenPomFile }}
+          artifactPath: ${{ parameters.artifactDestination }}
+          artifactsFeeds: ${{ parameters.artifactsFeeds }}
+          sonarProjectKey: ${{ parameters.sonarProjectKey }}
+          sonarProjectName: ${{ parameters.sonarProjectName }}
+          sonarHostUrl: ${{ parameters.sonarHostUrl }}
+          sonarLogin: ${{ parameters.sonarLogin }}
+          telemetryEndpoint: ${{ parameters.telemetryEndpoint }}
