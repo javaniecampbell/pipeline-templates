@@ -1,0 +1,37 @@
+# templates/stages/deployment_stage.yml
+# This stage template defines a dedicated deployment stage.
+# It deploys artifacts to an environment that can have manual or automated approval gates.
+#
+# Parameters:
+#   vmImageName: The agent VM image to use.
+#   environmentName: The name of the Azure DevOps environment (e.g., 'staging' or 'production').
+#   deployScriptPath: (Optional) Path to a script that performs the deployment.
+#   artifactPath: (Optional) Path to the artifact(s) to be deployed.
+
+parameters:
+  vmImageName: "ubuntu-latest"
+  environmentName: "" # e.g., 'staging' or 'production'
+  deployScriptPath: "" # Optional: a script to execute for deployment
+  artifactPath: "" # Optional: location of the artifact to deploy
+
+stages:
+  - stage: Deploy
+    displayName: "Deploy to ${{ parameters.environmentName }}"
+    jobs:
+      - deployment: DeployJob
+        displayName: "Deploy to ${{ parameters.environmentName }}"
+        environment: ${{ parameters.environmentName }} # Azure DevOps environment (pre-deployment approvals set on this environment)
+        pool:
+          vmImage: ${{ parameters.vmImageName }}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: |
+                    echo "Deploying artifact from ${{ parameters.artifactPath }} to ${{ parameters.environmentName }} environment."
+                    if [ -n "${{ parameters.deployScriptPath }}" ]; then
+                      bash ${{ parameters.deployScriptPath }}
+                    else
+                      echo "No deployment script provided. Please add deployment commands here."
+                    fi
+                  displayName: "Deploy Artifact"
