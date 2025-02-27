@@ -1,0 +1,10 @@
+# templates/tasks/publish_build_artifacts.yml
+parameters:
+  artifactPath: ""
+
+steps:
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish Build Artifacts"
+    inputs:
+      PathtoPublish: ${{ parameters.artifactPath }}
+      ArtifactName: "functionapp-artifacts"
