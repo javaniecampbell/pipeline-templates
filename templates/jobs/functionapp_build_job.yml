@@ -1,0 +1,28 @@
+# templates/jobs/functionapp_build_job.yml
+parameters:
+  vmImageName: "ubuntu-latest"
+  mavenPomFile: ""
+  artifactPath: ""
+  artifactsFeeds: "AD_Applications_Feed"
+
+jobs:
+  - job: FunctionAppBuild
+    displayName: "Build and Test Function App"
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    steps:
+      - template: ../tasks/java_tool_installer.yml
+        parameters:
+          versionSpec: "21"
+          jdkArchitectureOption: "x64"
+          jdkSourceOption: "PreInstalled"
+      - template: ../tasks/maven_authenticate.yml
+        parameters:
+          artifactsFeeds: ${{ parameters.artifactsFeeds }}
+      - template: ../tasks/maven_build_functionapp.yml
+        parameters:
+          mavenPomFile: ${{ parameters.mavenPomFile }}
+          goals: "clean package"
+      - template: ../tasks/publish_build_artifacts.yml
+        parameters:
+          artifactPath: ${{ parameters.artifactPath }}
