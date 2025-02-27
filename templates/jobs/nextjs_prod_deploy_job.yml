@@ -1,0 +1,27 @@
+# templates/jobs/nextjs_prod_deploy_job.yml
+parameters:
+  vmImageName: "ubuntu-latest"
+  environmentName: ""
+  deployScriptPath: ""
+  artifactPath: ""
+  deploymentName: "" # e.g., the Kubernetes deployment name for Next.js
+  azureSubscription: ""
+  resourceGroup: ""
+jobs:
+  - deployment: NextJsDeploy
+    displayName: "Deploy Next.js Production App"
+    environment: ${{ parameters.environmentName }}
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - script: |
+                echo "Deploying Next.js App: ${{ parameters.deploymentName }}"
+                bash ${{ parameters.deployScriptPath }} \
+                  ${{ parameters.deploymentName }} \
+                  ${{ parameters.azureSubscription }} \
+                  ${{ parameters.resourceGroup }} \
+                  ${{ parameters.artifactPath }}
+              displayName: "Run Next.js Deployment Script"
