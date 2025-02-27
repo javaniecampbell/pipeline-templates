@@ -1,0 +1,71 @@
+# templates/jobs/enhanced_docker_build_job.yml
+# This job template enhances the Docker build and push process by incorporating artifact versioning and metadata management.
+# It generates an image tag based on the build number and Git commit hash, builds and pushes the image,
+# and publishes an artifact metadata file with details about the build.
+#
+# Parameters:
+#   vmImageName: The build agent VM image.
+#   dockerRegistryServiceConnection: The service connection for the Docker registry.
+#   imageRepository: The Docker image repository name.
+#   tagPrefix: (Optional) A prefix to use for the image tag.
+#
+parameters:
+  vmImageName: "ubuntu-latest"
+  dockerRegistryServiceConnection: ""
+  imageRepository: ""
+  tagPrefix: ""
+
+jobs:
+  - job: EnhancedDockerBuild
+    displayName: "Build, Tag, and Publish Docker Image with Enhanced Artifact Management"
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    steps:
+      - task: Bash@3
+        displayName: "Generate Image Tag"
+        inputs:
+          targetType: "inline"
+          script: |
+            # Generate an image tag using the build number and a short Git commit hash
+            COMMIT_HASH=$(git rev-parse --short HEAD)
+            IMAGE_TAG="${{ parameters.tagPrefix }}$(Build.BuildNumber)-${COMMIT_HASH}"
+            echo "##vso[task.setvariable variable=IMAGE_TAG]$IMAGE_TAG"
+            echo "Generated image tag: $IMAGE_TAG"
+      - task: Docker@2
+        displayName: "Build Docker Image"
+        inputs:
+          command: build
+          dockerfile: "**/Dockerfile"
+          repository: ${{ parameters.imageRepository }}
+          containerRegistry: ${{ parameters.dockerRegistryServiceConnection }}
+          tags: |
+            $(IMAGE_TAG)
+      - task: Docker@2
+        displayName: "Push Docker Image"
+        inputs:
+          command: push
+          repository: ${{ parameters.imageRepository }}
+          containerRegistry: ${{ parameters.dockerRegistryServiceConnection }}
+          tags: |
+            $(IMAGE_TAG)
+      - task: Bash@3
+        displayName: "Create Artifact Metadata"
+        inputs:
+          targetType: "inline"
+          script: |
+            cat <<EOF > artifact-metadata.json
+            {
+              "buildNumber": "$(Build.BuildNumber)",
+              "commitHash": "$(git rev-parse HEAD)",
+              "imageRepository": "${{ parameters.imageRepository }}",
+              "imageTag": "$(IMAGE_TAG)",
+              "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            }
+            EOF
+            echo "Artifact Metadata:"
+            cat artifact-metadata.json
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish Artifact Metadata"
+        inputs:
+          PathtoPublish: "artifact-metadata.json"
+          ArtifactName: "docker-metadata"
