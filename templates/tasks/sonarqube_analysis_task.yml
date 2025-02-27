@@ -1,0 +1,25 @@
+# templates/tasks/sonarqube_analysis.yml
+parameters:
+  sonarProjectKey: ""
+  sonarProjectName: ""
+  sonarHostUrl: "https://sonarcloud.io"
+  sonarLogin: ""
+
+steps:
+  - task: SonarQubePrepare@5
+    displayName: "Prepare SonarQube Analysis"
+    inputs:
+      SonarQube: "SonarQubeServiceConnection" # This should be defined in a variable group or pipeline variable
+      scannerMode: "CLI"
+      configMode: "manual"
+      cliProjectKey: ${{ parameters.sonarProjectKey }}
+      cliProjectName: ${{ parameters.sonarProjectName }}
+      cliSources: "."
+      extraProperties: |
+        sonar.host.url=${{ parameters.sonarHostUrl }}
+        sonar.login=${{ parameters.sonarLogin }}
+  - task: Maven@3
+    displayName: "Run SonarQube Analysis"
+    inputs:
+      mavenPomFile: "pom.xml"
+      goals: "clean verify sonar:sonar"
