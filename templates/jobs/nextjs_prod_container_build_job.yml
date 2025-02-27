@@ -1,0 +1,21 @@
+# templates/jobs/nextjs_prod_container_build_job.yml
+parameters:
+  vmImageName: "ubuntu-latest"
+  dockerfilePath: "**/Dockerfile"
+  imageRepository: ""
+  dockerRegistryServiceConnection: ""
+  containerRegistry: ""
+  tagPrefix: ""
+jobs:
+  - job: NextJsContainerBuild
+    displayName: "Build, Tag, and Scan Next.js Container"
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    steps:
+      - template: ../tasks/build_and_scan_container.yml
+        parameters:
+          dockerfilePath: ${{ parameters.dockerfilePath }}
+          imageRepository: ${{ parameters.imageRepository }}
+          dockerRegistryServiceConnection: ${{ parameters.dockerRegistryServiceConnection }}
+          containerRegistry: ${{ parameters.containerRegistry }}
+          tagPrefix: ${{ parameters.tagPrefix }}
