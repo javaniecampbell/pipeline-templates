@@ -1,0 +1,64 @@
+# templates/tasks/build_and_scan_container.yml
+# This task builds a container image, generates artifact metadata, and runs a security scan.
+# Parameters:
+# - dockerfilePath: Path to the Dockerfile (e.g., '**/Dockerfile')
+# - imageRepository: Name of the image repository (e.g., 'my-image-repo')
+# - dockerRegistryServiceConnection: Service connection for Docker registry (e.g., 'DockerRegistry')
+# - containerRegistry: Name of the container registry (e.g., 'my-container-registry')
+# - tagPrefix
+#
+# TODO: Use existing tasks templates for building and scanning 
+parameters:
+  dockerfilePath: '**/Dockerfile'
+  imageRepository: ''
+  dockerRegistryServiceConnection: ''
+  containerRegistry: ''
+  tagPrefix: ''
+
+steps:
+- task: Bash@3
+  displayName: "Generate Image Tag and Artifact Metadata"
+  inputs:
+    targetType: 'inlineScript'
+    script: |
+      COMMIT_HASH=$(git rev-parse --short HEAD)
+      IMAGE_TAG="${{ parameters.tagPrefix }}$(Build.BuildNumber)-${COMMIT_HASH}"
+      echo "##vso[task.setvariable variable=IMAGE_TAG]$IMAGE_TAG"
+      echo "Generated image tag: $IMAGE_TAG"
+      cat <<EOF > artifact-metadata.json
+      {
+        "buildNumber": "$(Build.BuildNumber)",
+        "commitHash": "$(git rev-parse HEAD)",
+        "imageRepository": "${{ parameters.imageRepository }}",
+        "imageTag": "$IMAGE_TAG",
+        "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+      }
+EOF
+      echo "Artifact metadata generated:"
+      cat artifact-metadata.json
+- task: Docker@2
+  displayName: "Build Container Image"
+  inputs:
+    command: build
+    dockerfile: ${{ parameters.dockerfilePath }}
+    repository: ${{ parameters.imageRepository }}
+    containerRegistry: ${{ parameters.dockerRegistryServiceConnection }}
+    tags: |
+      $(IMAGE_TAG)
+- task: Docker@2
+  displayName: "Push Container Image"
+  inputs:
+    command: push
+    repository: ${{ parameters.imageRepository }}
+    containerRegistry: ${{ parameters.dockerRegistryServiceConnection }}
+    tags: |
+      $(IMAGE_TAG)
+- task: ErmeticContainerImageScan@1
+  displayName: "Security Scan Container Image"
+  inputs:
+    apiToken: '$(TENABLE_API_TOKEN)'
+    apiUrl: 'https://us.app.ermetic.com'
+    logs: true
+    name: "${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}:$(IMAGE_TAG)"
+    registryUsername: '$(CONTAINER_REGISTRY_USERNAME)'
+    registryPassword: '$(CONTAINER_REGISTRY_PASSWORD)'
