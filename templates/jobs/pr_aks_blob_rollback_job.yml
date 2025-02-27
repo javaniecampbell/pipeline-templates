@@ -1,0 +1,41 @@
+# templates/jobs/pr_aks_blob_rollback_job.yml
+# This job template executes a rollback using artifact metadata stored in Azure Blob Storage.
+# It runs the rollback_using_blob.sh script with the required parameters.
+#
+# Parameters:
+#   vmImageName: The build agent VM image to use.
+#   rollbackScriptPath: Path to the rollback_using_blob.sh script.
+#   storageAccount: The name of the Azure Storage Account.
+#   containerName: The Blob container name.
+#   blobName: The name of the blob (metadata file) to use for rollback.
+#   deploymentName: The Kubernetes deployment name to roll back.
+#   namespace: The Kubernetes namespace where the deployment resides.
+#
+parameters:
+  vmImageName: "ubuntu-latest"
+  rollbackScriptPath: "scripts/rollback_using_blob.sh"
+  storageAccount: ""
+  containerName: ""
+  blobName: ""
+  deploymentName: ""
+  namespace: ""
+
+jobs:
+  - deployment: PRBlobRollbackJob
+    displayName: "Execute PR Rollback using Blob Metadata"
+    environment: ${{ parameters.namespace }} # You can configure an environment if needed
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - script: |
+                echo "Starting rollback using blob metadata..."
+                bash ${{ parameters.rollbackScriptPath }} \
+                  ${{ parameters.storageAccount }} \
+                  ${{ parameters.containerName }} \
+                  ${{ parameters.blobName }} \
+                  ${{ parameters.deploymentName }} \
+                  ${{ parameters.namespace }}
+              displayName: "Run rollback_using_blob.sh"
