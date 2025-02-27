@@ -1,0 +1,31 @@
+# templates/stages/nextjs_prod_build_stage.yml
+parameters:
+  vmImageName: "ubuntu-latest"
+  installCommand: "npm install"
+  buildCommand: "npm run build"
+  artifactDestination: ""
+  containerBuild: false
+  dockerfilePath: "**/Dockerfile"
+  imageRepository: ""
+  dockerRegistryServiceConnection: ""
+  containerRegistry: ""
+  tagPrefix: ""
+stages:
+  - stage: Build
+    displayName: "Build Stage - Next.js Production"
+    jobs:
+      - template: ../jobs/nextjs_prod_build_job.yml
+        parameters:
+          vmImageName: ${{ parameters.vmImageName }}
+          installCommand: ${{ parameters.installCommand }}
+          buildCommand: ${{ parameters.buildCommand }}
+          artifactPath: ${{ parameters.artifactDestination }}
+      - ${{ if eq(parameters.containerBuild, true) }}:
+          - template: ../jobs/nextjs_prod_container_build_job.yml
+            parameters:
+              vmImageName: ${{ parameters.vmImageName }}
+              dockerfilePath: ${{ parameters.dockerfilePath }}
+              imageRepository: ${{ parameters.imageRepository }}
+              dockerRegistryServiceConnection: ${{ parameters.dockerRegistryServiceConnection }}
+              containerRegistry: ${{ parameters.containerRegistry }}
+              tagPrefix: ${{ parameters.tagPrefix }}
