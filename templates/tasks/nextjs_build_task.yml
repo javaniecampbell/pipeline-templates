@@ -1,0 +1,11 @@
+# templates/tasks/nextjs_build.yml
+parameters:
+  buildCommand: "npm run build"
+steps:
+  - task: Bash@3
+    displayName: "Build Next.js Production App"
+    inputs:
+      targetType: "inlineScript"
+      script: |
+        echo "Running Next.js build command: ${{ parameters.buildCommand }}"
+        ${{ parameters.buildCommand }}
