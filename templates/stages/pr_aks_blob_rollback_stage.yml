@@ -1,0 +1,35 @@
+# templates/stages/pr_aks_blob_rollback_stage.yml
+# This stage template defines a PR rollback stage that utilizes blob-based artifact metadata.
+# It wraps the PR Blob Rollback Job (pr_aks_blob_rollback_job.yml) so that it can be easily consumed.
+#
+# Parameters:
+#   vmImageName: The build agent VM image to use.
+#   rollbackScriptPath: The path to the rollback script (default: scripts/rollback_using_blob.sh).
+#   storageAccount: The Azure Storage Account name.
+#   containerName: The Blob container name.
+#   blobName: The blob name that holds the artifact metadata (e.g., artifact-metadata-<BuildNumber>.json).
+#   deploymentName: The Kubernetes deployment to roll back.
+#   namespace: The Kubernetes namespace of the deployment.
+#
+parameters:
+  vmImageName: "ubuntu-latest"
+  rollbackScriptPath: "scripts/rollback_using_blob.sh"
+  storageAccount: ""
+  containerName: ""
+  blobName: ""
+  deploymentName: ""
+  namespace: ""
+
+stages:
+  - stage: PRBlobRollback
+    displayName: "PR Rollback using Blob Metadata"
+    jobs:
+      - template: templates/jobs/pr_aks_blob_rollback_job.yml@templates
+        parameters:
+          vmImageName: ${{ parameters.vmImageName }}
+          rollbackScriptPath: ${{ parameters.rollbackScriptPath }}
+          storageAccount: ${{ parameters.storageAccount }}
+          containerName: ${{ parameters.containerName }}
+          blobName: ${{ parameters.blobName }}
+          deploymentName: ${{ parameters.deploymentName }}
+          namespace: ${{ parameters.namespace }}
