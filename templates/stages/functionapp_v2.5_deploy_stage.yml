@@ -1,0 +1,23 @@
+# templates/stages/functionapp_deploy_stage.yml
+parameters:
+  vmImageName: "ubuntu-latest"
+  environmentName: "" # e.g., 'function-testing'
+  deployScriptPath: ""
+  artifactPath: ""
+  functionAppName: ""
+  azureSubscription: ""
+  resourceGroup: ""
+
+stages:
+  - stage: Deploy
+    displayName: "Deploy Stage - Function App"
+    jobs:
+      - template: ../jobs/functionapp_v2_deploy_job.yml
+        parameters:
+          vmImageName: ${{ parameters.vmImageName }}
+          environmentName: ${{ parameters.environmentName }}
+          deployScriptPath: ${{ parameters.deployScriptPath }}
+          artifactPath: ${{ parameters.artifactPath }}
+          functionAppName: ${{ parameters.functionAppName }}
+          azureSubscription: ${{ parameters.azureSubscription }}
+          resourceGroup: ${{ parameters.resourceGroup }}
