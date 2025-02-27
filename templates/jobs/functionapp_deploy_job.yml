@@ -1,0 +1,25 @@
+# templates/jobs/functionapp_deploy_job.yml
+# This job template runs a deployment script to deploy the Function App.
+parameters:
+  vmImageName: "ubuntu-latest"
+  environmentName: ""
+  deployScriptPath: ""
+  artifactPath: ""
+  functionAppName: ""
+  azureSubscription: ""
+  resourceGroup: ""
+
+jobs:
+  - deployment: FunctionAppDeploy
+    displayName: "Deploy Function App"
+    environment: ${{ parameters.environmentName }}
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - script: |
+                echo "Deploying Function App: ${{ parameters.functionAppName }}"
+                bash ${{ parameters.deployScriptPath }} ${{ parameters.functionAppName }} ${{ parameters.azureSubscription }} ${{ parameters.resourceGroup }} ${{ parameters.artifactPath }}
+              displayName: "Run Function App Deployment Script"
