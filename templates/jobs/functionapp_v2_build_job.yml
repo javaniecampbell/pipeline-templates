@@ -1,0 +1,46 @@
+# templates/jobs/functionapp_build_job.yml
+parameters:
+  vmImageName: "ubuntu-latest"
+  mavenPomFile: ""
+  artifactPath: ""
+  artifactsFeeds: "AD_Applications_Feed"
+  sonarProjectKey: ""
+  sonarProjectName: ""
+  sonarHostUrl: "https://sonarcloud.io"
+  sonarLogin: ""
+  telemetryEndpoint: ""
+
+jobs:
+  - job: FunctionAppBuild
+    displayName: "Build, Analyze, and Publish Function App"
+    pool:
+      vmImage: ${{ parameters.vmImageName }}
+    steps:
+      - template: templates/tasks/java_tool_installer.yml@templates
+        parameters:
+          versionSpec: "21"
+          jdkArchitectureOption: "x64"
+          jdkSourceOption: "PreInstalled"
+      - template: templates/tasks/maven_authenticate.yml@templates
+        parameters:
+          artifactsFeeds: ${{ parameters.artifactsFeeds }}
+      - template: templates/tasks/maven_build_functionapp.yml@templates
+        parameters:
+          mavenPomFile: ${{ parameters.mavenPomFile }}
+          goals: "clean package"
+          testResultsFiles: "**/surefire-reports/TEST-*.xml"
+      - template: templates/tasks/sonarqube_analysis.yml@templates
+        parameters:
+          sonarProjectKey: ${{ parameters.sonarProjectKey }}
+          sonarProjectName: ${{ parameters.sonarProjectName }}
+          sonarHostUrl: ${{ parameters.sonarHostUrl }}
+          sonarLogin: ${{ parameters.sonarLogin }}
+      - template: templates/tasks/publish_build_artifacts.yml@templates
+        parameters:
+          artifactPath: ${{ parameters.artifactPath }}
+      - template: templates/tasks/send_telemetry.yml@templates
+        parameters:
+          telemetryEndpoint: ${{ parameters.telemetryEndpoint }}
+          buildNumber: "$(Build.BuildNumber)"
+          buildDuration: "$(Build.BuildTime)" # Custom: Calculate or set appropriately
+          status: "Success"
