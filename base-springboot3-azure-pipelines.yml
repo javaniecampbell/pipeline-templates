@@ -48,7 +48,11 @@ stages:
       prodHelmChartContainerRegistry: ${{ parameters.prodHelmChartContainerRegistry }}
       helmChartPath: ${{ parameters.helmChartPath }}
       artifactDestination: ${{ parameters.artifactDestination }}
-
+      # # Parameters for PR deployment stage:
+      # deployEnvironment: "pr-testing"
+      # deployScriptPath: "scripts/deploy_springboot.sh"
+      # deployAction: "deploy"
+  
   - template: templates/stages/deployment_stage.yml@templates
     parameters:
       vmImageName: ${{ parameters.vmImageName }}
