@@ -1,0 +1,50 @@
+# base-nextjs-prod-pipeline.yml
+parameters:
+  vmImageName: 'ubuntu-latest'
+  installCommand: 'npm install'
+  buildCommand: 'npm run build'
+  artifactDestination: '$(Build.ArtifactStagingDirectory)'
+  deploymentName: ''
+  azureSubscription: ''
+  resourceGroup: ''
+  deployScriptPath: 'scripts/deploy_nextjs.sh'
+  deployEnvironment: 'production'
+  containerBuild: false
+  dockerfilePath: '**/Dockerfile'
+  imageRepository: ''
+  dockerRegistryServiceConnection: ''
+  containerRegistry: ''
+  tagPrefix: ''
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+  tags:
+    include:
+      - '*'
+
+stages:
+- template: templates/stages/nextjs_prod_build_stage.yml@templates
+  parameters:
+    vmImageName: ${{ parameters.vmImageName }}
+    installCommand: ${{ parameters.installCommand }}
+    buildCommand: ${{ parameters.buildCommand }}
+    artifactDestination: ${{ parameters.artifactDestination }}
+    containerBuild: ${{ parameters.containerBuild }}
+    dockerfilePath: ${{ parameters.dockerfilePath }}
+    imageRepository: ${{ parameters.imageRepository }}
+    dockerRegistryServiceConnection: ${{ parameters.dockerRegistryServiceConnection }}
+    containerRegistry: ${{ parameters.containerRegistry }}
+    tagPrefix: ${{ parameters.tagPrefix }}
+
+- template: templates/stages/nextjs_prod_deploy_stage.yml@templates
+  parameters:
+    vmImageName: ${{ parameters.vmImageName }}
+    environmentName: ${{ parameters.deployEnvironment }}
+    deployScriptPath: ${{ parameters.deployScriptPath }}
+    artifactPath: ${{ parameters.artifactDestination }}
+    deploymentName: ${{ parameters.deploymentName }}
+    azureSubscription: ${{ parameters.azureSubscription }}
+    resourceGroup: ${{ parameters.resourceGroup }}
