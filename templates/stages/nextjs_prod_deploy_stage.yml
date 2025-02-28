@@ -1,0 +1,22 @@
+# templates/stages/nextjs_prod_deploy_stage.yml
+parameters:
+  vmImageName: "ubuntu-latest"
+  environmentName: "" # e.g., 'production'
+  deployScriptPath: ""
+  artifactPath: ""
+  deploymentName: ""
+  azureSubscription: ""
+  resourceGroup: ""
+stages:
+  - stage: Deploy
+    displayName: "Deploy Stage - Next.js Production"
+    jobs:
+      - template: ../jobs/nextjs_prod_deploy_job.yml
+        parameters:
+          vmImageName: ${{ parameters.vmImageName }}
+          environmentName: ${{ parameters.environmentName }}
+          deployScriptPath: ${{ parameters.deployScriptPath }}
+          artifactPath: ${{ parameters.artifactPath }}
+          deploymentName: ${{ parameters.deploymentName }}
+          azureSubscription: ${{ parameters.azureSubscription }}
+          resourceGroup: ${{ parameters.resourceGroup }}
