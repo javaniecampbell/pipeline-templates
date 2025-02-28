@@ -1,0 +1,109 @@
+# base-nextjs-prod-multi-stage-pipeline.yml
+parameters:
+  vmImageName: "ubuntu-latest"
+  installCommand: "npm install"
+  buildCommand: "npm run build"
+  artifactDestination: "$(Build.ArtifactStagingDirectory)"
+  # Deployment-specific parameters for different environments:
+  qaDeployEnvironment: "qa"
+  stagingDeployEnvironment: "staging"
+  prodDeployEnvironment: "production"
+  deployScriptPath: "scripts/deploy_nextjs.sh"
+  deploymentName: "nextjs-app"
+  azureSubscription: "MyAzureServiceConnection"
+  resourceGroup: "my-resource-group"
+  # SonarQube & Telemetry
+  sonarProjectKey: "my-sonar-project-key"
+  sonarProjectName: "MyNextJsApp"
+  sonarHostUrl: "https://sonarcloud.io"
+  sonarLogin: "$(SONAR_TOKEN)"
+  telemetryEndpoint: "https://mytelemetryendpoint/api/log"
+  # Container build parameters (optional)
+  containerBuild: true
+  dockerfilePath: "Dockerfile"
+  imageRepository: "nextjs-prod"
+  dockerRegistryServiceConnection: "MyDockerServiceConnection"
+  containerRegistry: "mycontainerregistry.azurecr.io"
+  tagPrefix: "nextjs-prod-"
+
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+  tags:
+    include:
+      - "*"
+
+stages:
+  # 1. Build Stage: Build Next.js app (and containerize if enabled)
+  - template: templates/stages/nextjs_prod_build_stage.yml@templates
+    parameters:
+      vmImageName: ${{ parameters.vmImageName }}
+      installCommand: ${{ parameters.installCommand }}
+      buildCommand: ${{ parameters.buildCommand }}
+      artifactDestination: ${{ parameters.artifactDestination }}
+      containerBuild: ${{ parameters.containerBuild }}
+      dockerfilePath: ${{ parameters.dockerfilePath }}
+      imageRepository: ${{ parameters.imageRepository }}
+      dockerRegistryServiceConnection: ${{ parameters.dockerRegistryServiceConnection }}
+      containerRegistry: ${{ parameters.containerRegistry }}
+      tagPrefix: ${{ parameters.tagPrefix }}
+
+  # 2. QA Deployment Stage: Deploy to QA environment for integration testing.
+  - template: templates/stages/nextjs_prod_deploy_stage.yml@templates
+    parameters:
+      vmImageName: ${{ parameters.vmImageName }}
+      environmentName: ${{ parameters.qaDeployEnvironment }}
+      deployScriptPath: ${{ parameters.deployScriptPath }}
+      artifactPath: ${{ parameters.artifactDestination }}
+      deploymentName: ${{ parameters.deploymentName }}
+      azureSubscription: ${{ parameters.azureSubscription }}
+      resourceGroup: ${{ parameters.resourceGroup }}
+
+  # 3. Staging Deployment Stage: Deploy to staging (with approval gates as configured in the environment).
+  - template: templates/stages/nextjs_prod_deploy_stage.yml@templates
+    parameters:
+      vmImageName: ${{ parameters.vmImageName }}
+      environmentName: ${{ parameters.stagingDeployEnvironment }}
+      deployScriptPath: ${{ parameters.deployScriptPath }}
+      artifactPath: ${{ parameters.artifactDestination }}
+      deploymentName: ${{ parameters.deploymentName }}
+      azureSubscription: ${{ parameters.azureSubscription }}
+      resourceGroup: ${{ parameters.resourceGroup }}
+
+  # 4. Production Deployment Stage: Final deployment to production.
+  - template: templates/stages/nextjs_prod_deploy_stage.yml@templates
+    parameters:
+      vmImageName: ${{ parameters.vmImageName }}
+      environmentName: ${{ parameters.prodDeployEnvironment }}
+      deployScriptPath: ${{ parameters.deployScriptPath }}
+      artifactPath: ${{ parameters.artifactDestination }}
+      deploymentName: ${{ parameters.deploymentName }}
+      azureSubscription: ${{ parameters.azureSubscription }}
+      resourceGroup: ${{ parameters.resourceGroup }}
+
+  # 5. Post-Deployment Validation Stage: Run smoke tests and send telemetry.
+  - stage: PostDeploymentValidation
+    displayName: "Post-Deployment Validation Stage"
+    jobs:
+      - job: SmokeTests
+        displayName: "Run Smoke Tests"
+        pool:
+          vmImage: "ubuntu-latest"
+        steps:
+          - task: Bash@3
+            displayName: "Run Smoke Tests"
+            inputs:
+              targetType: "inlineScript"
+              script: |
+                echo "Running smoke tests for Next.js production..."
+                # Insert your smoke test commands here (e.g., curl, npm run smoke, etc.)
+                sleep 10
+                echo "Smoke tests completed."
+          - template: templates/tasks/send_telemetry.yml@templates
+            parameters:
+              telemetryEndpoint: ${{ parameters.telemetryEndpoint }}
+              buildNumber: "$(Build.BuildNumber)"
+              buildDuration: "$(Build.BuildTime)"
+              status: "Post-Deployment Validated"
