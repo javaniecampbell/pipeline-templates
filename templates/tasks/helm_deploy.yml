@@ -1,0 +1,29 @@
+# templates/tasks/helm_deploy.yml
+# Generic Helm deployment task.
+# Parameters:
+#   command: 'upgrade' (or 'install', 'rollback', etc.)
+#   releaseName: Name of the Helm release.
+#   chartPath: File path to the Helm chart.
+#   namespace: Kubernetes namespace.
+#   additionalArgs: Additional command line arguments.
+parameters:
+  command: "upgrade"
+  releaseName: ""
+  chartPath: ""
+  namespace: ""
+  additionalArgs: ""
+
+steps:
+  - task: HelmDeploy@1
+    displayName: "Helm Deploy: ${{ parameters.command }}"
+    inputs:
+      connectionType: "Azure Resource Manager"
+      azureSubscription: "$(AzureSubscriptionForHelm)" # Set via variable group or pipeline variable
+      azureResourceGroup: "$(ResourceGroupForHelm)" # Set via variable group or pipeline variable
+      kubernetesCluster: "$(KubernetesCluster)" # Set via variable group or pipeline variable
+      command: ${{ parameters.command }}
+      chartType: "FilePath"
+      chartPath: ${{ parameters.chartPath }}
+      releaseName: ${{ parameters.releaseName }}
+      namespace: ${{ parameters.namespace }}
+      arguments: ${{ parameters.additionalArgs }}
