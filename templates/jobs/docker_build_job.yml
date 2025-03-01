@@ -39,13 +39,13 @@ jobs:
           containerRegistry: ${{ parameters.dockerRegistryServiceConnection }}
           tags: "$(tag)"
           additionalArgs: "--secret id=settings,src=$(settings.secureFilePath)"
-        condition: eq(variables.prodBuild, false)
+        condition: eq(variables['prodBuild'], false)
       - template: ../tasks/docker_push.yml
         parameters:
           repository: ${{ parameters.imageRepository }}
           containerRegistry: ${{ parameters.dockerRegistryServiceConnection }}
           tags: "$(tag)"
-        condition: eq(variables.prodBuild, false)
+        condition: eq(variables['prodBuild'], false)
       - template: ../tasks/ermetic_scan.yml
         parameters:
           imageName: "$(containerRegistry)/${{ parameters.imageRepository }}:$(tag)"
@@ -58,10 +58,10 @@ jobs:
           containerRegistry: "$(prodDockerRegistryServiceConnection)"
           tags: "$(tag)"
           additionalArgs: "--secret id=settings,src=$(settings.secureFilePath)"
-        condition: eq(variables.prodBuild, true)
+        condition: eq(variables['prodBuild'], true)
       - template: ../tasks/docker_push.yml
         parameters:
           repository: ${{ parameters.imageRepository }}
           containerRegistry: "$(prodDockerRegistryServiceConnection)"
           tags: "$(tag)"
-        condition: eq(variables.prodBuild, true)
+        condition: eq(variables['prodBuild'], true)
