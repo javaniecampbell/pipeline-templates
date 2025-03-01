@@ -65,9 +65,9 @@ stages:
       # deployScriptPath: "scripts/deploy_springboot.sh"
       # deployAction: "deploy"
   
-  - template: templates/stages/deployment_stage.yml
-    parameters:
-      vmImageName: ${{ parameters.vmImageName }}
-      environmentName: ${{ parameters.deployEnvironment }}
-      deployScriptPath: ${{ parameters.deployScriptPath }}
-      artifactPath: ${{ parameters.artifactDestination }}
+  # - template: templates/stages/deployment_stage.yml
+  #   parameters:
+  #     vmImageName: ${{ parameters.vmImageName }}
+  #     environmentName: ${{ parameters.deployEnvironment }}
+  #     deployScriptPath: ${{ parameters.deployScriptPath }}
+  #     artifactPath: ${{ parameters.artifactDestination }}
