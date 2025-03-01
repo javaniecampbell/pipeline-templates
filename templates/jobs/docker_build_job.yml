@@ -32,36 +32,40 @@ jobs:
           echo "##vso[task.setvariable variable=tag]$TAG"
         displayName: "Set QA Variables"
         condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')
-      - template: ../tasks/docker_build.yml
-        parameters:
-          dockerfilePath: "**/Dockerfile"
-          repository: ${{ parameters.imageRepository }}
-          containerRegistry: ${{ parameters.dockerRegistryServiceConnection }}
-          tags: "$(tag)"
-          additionalArgs: "--secret id=settings,src=$(settings.secureFilePath)"
-        condition: eq(variables['prodBuild'], false)
-      - template: ../tasks/docker_push.yml
-        parameters:
-          repository: ${{ parameters.imageRepository }}
-          containerRegistry: ${{ parameters.dockerRegistryServiceConnection }}
-          tags: "$(tag)"
-        condition: eq(variables['prodBuild'], false)
+      - ${{ if(eq(variables['prodBuild'], false)) }}:
+        - template: ../tasks/docker_build.yml
+          parameters:
+            dockerfilePath: "**/Dockerfile"
+            repository: ${{ parameters.imageRepository }}
+            containerRegistry: ${{ parameters.dockerRegistryServiceConnection }}
+            tags: "$(tag)"
+            additionalArgs: "--secret id=settings,src=$(settings.secureFilePath)"
+          # condition: eq(variables['prodBuild'], false)
+      - ${{ if(eq(variables['prodBuild'], false)) }}:
+        - template: ../tasks/docker_push.yml
+          parameters:
+            repository: ${{ parameters.imageRepository }}
+            containerRegistry: ${{ parameters.dockerRegistryServiceConnection }}
+            tags: "$(tag)"
+          # condition: eq(variables['prodBuild'], false)
       - template: ../tasks/ermetic_scan.yml
         parameters:
           imageName: "$(containerRegistry)/${{ parameters.imageRepository }}:$(tag)"
           registryUsername: "$(CONTAINER_REGISTRY_USERNAME)"
           registryPassword: "$(CONTAINER_REGISTRY_PASSWORD)"
-      - template: ../tasks/docker_build.yml
-        parameters:
-          dockerfilePath: "**/Dockerfile"
-          repository: ${{ parameters.imageRepository }}
-          containerRegistry: "$(prodDockerRegistryServiceConnection)"
-          tags: "$(tag)"
-          additionalArgs: "--secret id=settings,src=$(settings.secureFilePath)"
-        condition: eq(variables['prodBuild'], true)
-      - template: ../tasks/docker_push.yml
-        parameters:
-          repository: ${{ parameters.imageRepository }}
-          containerRegistry: "$(prodDockerRegistryServiceConnection)"
-          tags: "$(tag)"
-        condition: eq(variables['prodBuild'], true)
+      - ${{ if(eq(variables['prodBuild'], true)) }}:    
+        - template: ../tasks/docker_build.yml
+          parameters:
+            dockerfilePath: "**/Dockerfile"
+            repository: ${{ parameters.imageRepository }}
+            containerRegistry: "$(prodDockerRegistryServiceConnection)"
+            tags: "$(tag)"
+            additionalArgs: "--secret id=settings,src=$(settings.secureFilePath)"
+          # condition: eq(variables['prodBuild'], true)
+      - ${{ if(eq(variables['prodBuild'], true)) }}:
+        - template: ../tasks/docker_push.yml
+          parameters:
+            repository: ${{ parameters.imageRepository }}
+            containerRegistry: "$(prodDockerRegistryServiceConnection)"
+            tags: "$(tag)"
+          # condition: eq(variables['prodBuild'], true) 
