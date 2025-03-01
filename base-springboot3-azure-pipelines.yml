@@ -36,7 +36,9 @@ parameters:
     default: "$(Build.ArtifactStagingDirectory)"
   - name: deployScriptPath
     default: "" # Optional: specify a script to run during deployment
-
+  - name: deployEnvironment
+    default: "development"
+    # Options: "development", "pr-testing", "production"
 trigger:
   branches:
     include:
@@ -59,7 +61,7 @@ stages:
       helmChartPath: ${{ parameters.helmChartPath }}
       artifactDestination: ${{ parameters.artifactDestination }}
       # # Parameters for PR deployment stage:
-      # deployEnvironment: "pr-testing"
+      deployEnvironment: "pr-testing"
       # deployScriptPath: "scripts/deploy_springboot.sh"
       # deployAction: "deploy"
   
