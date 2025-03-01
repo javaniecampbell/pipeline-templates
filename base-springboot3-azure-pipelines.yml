@@ -16,16 +16,26 @@
 #
 
 parameters:
-  vmImageName: "ubuntu-latest"
-  dockerRegistryServiceConnection: ""
-  prodDockerRegistryServiceConnection: ""
-  imageRepository: ""
-  containerRegistry: ""
-  devHelmChartContainerRegistry: ""
-  prodHelmChartContainerRegistry: ""
-  helmChartPath: "helm-chart"
-  artifactDestination: "$(Build.ArtifactStagingDirectory)"
-  deployScriptPath: "" # Optional: specify a script to run during deployment
+  - name: vmImageName
+    default: "ubuntu-latest"
+  - name: dockerRegistryServiceConnection
+    default: ""
+  - name: prodDockerRegistryServiceConnection
+    default: ""
+  - name: imageRepository
+    default: ""
+  - name: containerRegistry
+    default: ""
+  - name: devHelmChartContainerRegistry
+    default: ""
+  - name: prodHelmChartContainerRegistry
+    default: ""
+  - name: helmChartPath
+    default: "helm-chart"
+  - name: artifactDestination
+    default: "$(Build.ArtifactStagingDirectory)"
+  - name: deployScriptPath
+    default: "" # Optional: specify a script to run during deployment
 
 trigger:
   branches:
