@@ -18,6 +18,6 @@ trigger:
       - "*"
 
 stages:
-  - template: templates/stages/library_build_stage.yml@templates
+  - template: templates/stages/library_build_stage.yml
     parameters:
       vmImageName: ${{ parameters.vmImageName }}

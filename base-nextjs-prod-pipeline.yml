@@ -26,7 +26,7 @@ trigger:
       - '*'
 
 stages:
-- template: templates/stages/nextjs_prod_build_stage.yml@templates
+- template: templates/stages/nextjs_prod_build_stage.yml
   parameters:
     vmImageName: ${{ parameters.vmImageName }}
     installCommand: ${{ parameters.installCommand }}
@@ -39,7 +39,7 @@ stages:
     containerRegistry: ${{ parameters.containerRegistry }}
     tagPrefix: ${{ parameters.tagPrefix }}
 
-- template: templates/stages/nextjs_prod_deploy_stage.yml@templates
+- template: templates/stages/nextjs_prod_deploy_stage.yml
   parameters:
     vmImageName: ${{ parameters.vmImageName }}
     environmentName: ${{ parameters.deployEnvironment }}

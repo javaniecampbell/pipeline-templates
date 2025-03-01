@@ -33,13 +33,13 @@ trigger:
       - "*"
 
 stages:
-  - template: templates/stages/functionapp_v2_build_stage.yml@templates
+  - template: templates/stages/functionapp_v2_build_stage.yml
     parameters:
       vmImageName: ${{ parameters.vmImageName }}
       mavenPomFile: ${{ parameters.mavenPomFile }}
       artifactDestination: ${{ parameters.artifactDestination }}
 
-  - template: templates/stages/functionapp_v2_deploy_stage.yml@templates
+  - template: templates/stages/functionapp_v2_deploy_stage.yml
     parameters:
       vmImageName: ${{ parameters.vmImageName }}
       environmentName: ${{ parameters.deployEnvironment }}

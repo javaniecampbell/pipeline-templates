@@ -37,7 +37,7 @@ trigger:
       - "*"
 
 stages:
-  - template: templates/stages/java_build_stage.yml@templates
+  - template: templates/stages/java_build_stage.yml
     parameters:
       vmImageName: ${{ parameters.vmImageName }}
       dockerRegistryServiceConnection: ${{ parameters.dockerRegistryServiceConnection }}
@@ -53,7 +53,7 @@ stages:
       # deployScriptPath: "scripts/deploy_springboot.sh"
       # deployAction: "deploy"
   
-  - template: templates/stages/deployment_stage.yml@templates
+  - template: templates/stages/deployment_stage.yml
     parameters:
       vmImageName: ${{ parameters.vmImageName }}
       environmentName: ${{ parameters.deployEnvironment }}

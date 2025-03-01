@@ -21,7 +21,7 @@ stages:
   - stage: Deploy
     displayName: "Deploy to ${{ parameters.environmentName }}"
     jobs:
-      - template: templates/jobs/aks_deploy_job.yml@templates
+      - template: templates/jobs/aks_deploy_job.yml
         parameters:
           vmImageName: ${{ parameters.vmImageName }}
           environmentName: ${{ parameters.environmentName }}

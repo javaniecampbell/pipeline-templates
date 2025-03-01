@@ -24,7 +24,7 @@ stages:
   - stage: PRBlobRollback
     displayName: "PR Rollback using Blob Metadata"
     jobs:
-      - template: templates/jobs/pr_aks_blob_rollback_job.yml@templates
+      - template: templates/jobs/pr_aks_blob_rollback_job.yml
         parameters:
           vmImageName: ${{ parameters.vmImageName }}
           rollbackScriptPath: ${{ parameters.rollbackScriptPath }}

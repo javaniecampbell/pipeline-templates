@@ -16,29 +16,29 @@ jobs:
     pool:
       vmImage: ${{ parameters.vmImageName }}
     steps:
-      - template: templates/tasks/java_tool_installer.yml@templates
+      - template: templates/tasks/java_tool_installer.yml
         parameters:
           versionSpec: "21"
           jdkArchitectureOption: "x64"
           jdkSourceOption: "PreInstalled"
-      - template: templates/tasks/maven_authenticate.yml@templates
+      - template: templates/tasks/maven_authenticate.yml
         parameters:
           artifactsFeeds: ${{ parameters.artifactsFeeds }}
-      - template: templates/tasks/maven_build_functionapp.yml@templates
+      - template: templates/tasks/maven_build_functionapp.yml
         parameters:
           mavenPomFile: ${{ parameters.mavenPomFile }}
           goals: "clean package"
           testResultsFiles: "**/surefire-reports/TEST-*.xml"
-      - template: templates/tasks/sonarqube_analysis.yml@templates
+      - template: templates/tasks/sonarqube_analysis.yml
         parameters:
           sonarProjectKey: ${{ parameters.sonarProjectKey }}
           sonarProjectName: ${{ parameters.sonarProjectName }}
           sonarHostUrl: ${{ parameters.sonarHostUrl }}
           sonarLogin: ${{ parameters.sonarLogin }}
-      - template: templates/tasks/publish_build_artifacts.yml@templates
+      - template: templates/tasks/publish_build_artifacts.yml
         parameters:
           artifactPath: ${{ parameters.artifactPath }}
-      - template: templates/tasks/send_telemetry.yml@templates
+      - template: templates/tasks/send_telemetry.yml
         parameters:
           telemetryEndpoint: ${{ parameters.telemetryEndpoint }}
           buildNumber: "$(Build.BuildNumber)"

@@ -25,7 +25,7 @@ trigger:
       - "*"
 
 stages:
-  - template: templates/stages/functionapp_v2.5_build_stage.yml@templates
+  - template: templates/stages/functionapp_v2.5_build_stage.yml
     parameters:
       vmImageName: ${{ parameters.vmImageName }}
       mavenPomFile: ${{ parameters.mavenPomFile }}
@@ -36,7 +36,7 @@ stages:
       sonarLogin: ${{ parameters.sonarLogin }}
       telemetryEndpoint: ${{ parameters.telemetryEndpoint }}
 
-  - template: templates/stages/functionapp_v2.5_deploy_stage.yml@templates
+  - template: templates/stages/functionapp_v2.5_deploy_stage.yml
     parameters:
       vmImageName: ${{ parameters.vmImageName }}
       environmentName: ${{ parameters.deployEnvironment }}

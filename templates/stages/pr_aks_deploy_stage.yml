@@ -21,7 +21,7 @@ stages:
   - stage: PRDeploy
     displayName: "PR Deploy to ${{ parameters.environmentName }}"
     jobs:
-      - template: templates/jobs/pr_aks_deploy_job.yml@templates
+      - template: templates/jobs/pr_aks_deploy_job.yml
         parameters:
           vmImageName: ${{ parameters.vmImageName }}
           environmentName: ${{ parameters.environmentName }}
