@@ -10,6 +10,7 @@ parameters:
 jobs:
   - job: Docker
     displayName: "Build and Publish Docker Image"
+    dependsOn: Helm
     pool:
       vmImage: ${{ parameters.vmImageName }}
     steps:

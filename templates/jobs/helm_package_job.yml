@@ -9,6 +9,7 @@ parameters:
 jobs:
   - job: Helm
     displayName: "Package and Publish Helm Charts"
+    dependsOn: Tests
     pool:
       vmImage: ${{ parameters.vmImageName }}
     steps:
