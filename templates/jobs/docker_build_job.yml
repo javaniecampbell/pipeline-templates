@@ -2,14 +2,10 @@
 # Job template for building and publishing Docker images
 
 parameters:
-  - name: vmImageName
-    default: "ubuntu-latest"
-  - name: dockerRegistryServiceConnection
-    default: ""
-  - name: imageRepository
-    default: ""
-  - name: containerRegistry
-    default: ""
+  vmImageName: "ubuntu-latest"
+  dockerRegistryServiceConnection: ""
+  imageRepository: ""
+  containerRegistry: ""
 
 jobs:
   - job: Docker

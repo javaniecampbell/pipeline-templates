@@ -8,15 +8,9 @@
 #   artifactDestination: Directory where artifacts will be stored.
 #
 parameters:
-  - name: vmImageName
-    type: string
-    default: "ubuntu-latest"
-  - name: mavenPomFile
-    type: string
-    default: ""
-  - name: artifactDestination
-    type: string
-    default: ""
+  vmImageName: "ubuntu-latest"
+  mavenPomFile: ""
+  artifactDestination: ""
 
 stages:
   - stage: Build

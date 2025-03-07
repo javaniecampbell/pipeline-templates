@@ -1,8 +1,6 @@
 # templates/tasks/nextjs_build.yml
 parameters:
-  - name: buildCommand
-    type: string
-    default: "npm run build"
+  buildCommand: "npm run build"
 steps:
   - task: Bash@3
     displayName: "Build Next.js Production App"

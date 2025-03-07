@@ -1,15 +1,9 @@
 # templates/stages/functionapp_build_stage.yml
 # Stage template for building a Java Function App.
 parameters:
-  - name: vmImageName
-    type: string
-    default: "ubuntu-latest"
-  - name: mavenPomFile
-    type: string
-    default: ""
-  - name: artifactDestination
-    type: string
-    default: ""
+  vmImageName: "ubuntu-latest"
+  mavenPomFile: ""
+  artifactDestination: ""
 
 stages:
   - stage: Build

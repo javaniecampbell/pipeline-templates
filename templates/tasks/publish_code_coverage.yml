@@ -5,15 +5,10 @@
 # Parameters:
 #   summaryFileLocation: Location of the code coverage summary file.
 #   failIfCoverageEmpty: Fail the build if the code coverage is empty.
-#
 
 parameters:
-  - name: summaryFileLocation
-    type: string
-    default: ""
-  - name: failIfCoverageEmpty
-    type: boolean
-    default: true
+  summaryFileLocation: ""
+  failIfCoverageEmpty: true
 
 steps:
   - task: PublishCodeCoverageResults@2

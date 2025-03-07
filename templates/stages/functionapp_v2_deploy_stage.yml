@@ -1,27 +1,13 @@
 # templates/stages/functionapp_deploy_stage.yml
 # Stage template for deploying a Java Function App.
 parameters:
-  - name: vmImageName
-    type: string
-    default: "ubuntu-latest"
-  - name: environmentName
-    type: string
-    default: "" # e.g., 'function-testing'
-  - name: deployScriptPath
-    type: string
-    default: ""
-  - name: artifactPath
-    type: string
-    default: ""
-  - name: functionAppName
-    type: string
-    default: ""
-  - name: azureSubscription
-    type: string
-    default: ""
-  - name: resourceGroup
-    type: string
-    default: ""
+  vmImageName: "ubuntu-latest"
+  environmentName: "" # e.g., 'function-testing'
+  deployScriptPath: ""
+  artifactPath: ""
+  functionAppName: ""
+  azureSubscription: ""
+  resourceGroup: ""
 
 stages:
   - stage: Deploy

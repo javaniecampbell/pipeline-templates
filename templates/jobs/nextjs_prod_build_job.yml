@@ -1,17 +1,9 @@
 # templates/jobs/nextjs_prod_build_job.yml
 parameters:
-  - name: vmImageName
-    type: string
-    default: "ubuntu-latest"
-  - name: installCommand
-    type: string
-    default: "npm install"
-  - name: buildCommand
-    type: string
-    default: "npm run build"
-  - name: artifactPath
-    type: string
-    default: ""
+  vmImageName: "ubuntu-latest"
+  installCommand: "npm install"
+  buildCommand: "npm run build"
+  artifactPath: ""
 steps:
   - job: NextJsBuild
     displayName: "Build Next.js App"

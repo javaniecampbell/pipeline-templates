@@ -2,9 +2,7 @@
 # Stage template for the Java 21 Library pipeline.
 
 parameters:
-  - name: vmImageName
-    type: string
-    default: "ubuntu-latest"
+  vmImageName: "ubuntu-latest"
 
 stages:
   - stage: Build

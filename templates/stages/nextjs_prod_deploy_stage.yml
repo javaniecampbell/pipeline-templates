@@ -1,26 +1,12 @@
 # templates/stages/nextjs_prod_deploy_stage.yml
 parameters:
-  - name: vmImageName
-    type; string
-    default: "ubuntu-latest"
-  - name: environmentName
-    type; string
-    default: "" # e.g., 'production'
-  - name: deployScriptPath
-    type; string
-    default: ""
-  - name: artifactPath
-    type; string
-    default: ""
-  - name: deploymentName
-    type; string
-    default: ""
-  - name: azureSubscription
-    type; string
-    default: ""
-  - name: resourceGroup
-    type; string
-    default: ""
+  vmImageName: "ubuntu-latest"
+  environmentName: "" # e.g., 'production'
+  deployScriptPath: ""
+  artifactPath: ""
+  deploymentName: ""
+  azureSubscription: ""
+  resourceGroup: ""
 stages:
   - stage: Deploy
     displayName: "Deploy Stage - Next.js Production"

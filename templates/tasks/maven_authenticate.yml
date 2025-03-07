@@ -1,8 +1,6 @@
 # templates/tasks/maven_authenticate.yml
 parameters:
-  - name: artifactsFeeds
-    type: string
-    default: ""
+  artifactsFeeds: ""
 
 steps:
   - task: MavenAuthenticate@0

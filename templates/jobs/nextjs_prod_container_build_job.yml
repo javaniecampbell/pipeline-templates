@@ -1,23 +1,11 @@
 # templates/jobs/nextjs_prod_container_build_job.yml
 parameters:
-  - name: vmImageName
-    type: string
-    default: "ubuntu-latest"
-  - name: dockerfilePath
-    type: string
-    default: "**/Dockerfile"
-  - name: imageRepository
-    type: string
-    default: ""
-  - name: dockerRegistryServiceConnection
-    type: string
-    default: ""
-  - name: containerRegistry
-    type: string
-    default: ""
-  - name: tagPrefix
-    type: string
-    default: ""
+  vmImageName: "ubuntu-latest"
+  dockerfilePath: "**/Dockerfile"
+  imageRepository: ""
+  dockerRegistryServiceConnection: ""
+  containerRegistry: ""
+  tagPrefix: ""
 jobs:
   - job: NextJsContainerBuild
     displayName: "Build, Tag, and Scan Next.js Container"

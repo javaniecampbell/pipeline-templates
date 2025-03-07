@@ -1,14 +1,8 @@
 # templates/tasks/docker_push.yml
 parameters:
-  - name: repository
-    type: string
-    default: ""
-  - name: containerRegistry
-    type: string
-    default: ""
-  - name: tags
-    type: string
-    default: ""
+  repository: ""
+  containerRegistry: ""
+  tags: ""
 
 steps:
   - task: Docker@2

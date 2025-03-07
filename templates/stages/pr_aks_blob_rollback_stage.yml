@@ -12,27 +12,13 @@
 #   namespace: The Kubernetes namespace of the deployment.
 #
 parameters:
-  - name: vmImageName
-    type: string
-    default: "ubuntu-latest"
-  - name: rollbackScriptPath
-    type: string
-    default: "scripts/rollback_using_blob.sh"
-  - name: storageAccount
-    type: string
-    default: ""
-  - name: containerName
-    type: string
-    default: ""
-  - name: blobName
-    type: string
-    default: ""
-  - name: deploymentName
-    type: string
-    default: ""
-  - name: namespace
-    type: string
-    default: ""
+  vmImageName: "ubuntu-latest"
+  rollbackScriptPath: "scripts/rollback_using_blob.sh"
+  storageAccount: ""
+  containerName: ""
+  blobName: ""
+  deploymentName: ""
+  namespace: ""
 
 stages:
   - stage: PRBlobRollback

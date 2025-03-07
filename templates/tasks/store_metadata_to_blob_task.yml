@@ -9,18 +9,10 @@
 #   blobNamePrefix: A prefix for the blob name (default: artifact-metadata).
 #
 parameters:
-  - name: storageAccountName
-    type: string
-    default: ""
-  - name: storageContainerName
-    type: string
-    default: ""
-  - name: metadataFile
-    type: string
-    default: "artifact-metadata.json"
-  - name: blobNamePrefix
-    type: string
-    default: "artifact-metadata"
+  storageAccountName: ""
+  storageContainerName: ""
+  metadataFile: "artifact-metadata.json"
+  blobNamePrefix: "artifact-metadata"
 
 steps:
   - task: AzureCLI@2

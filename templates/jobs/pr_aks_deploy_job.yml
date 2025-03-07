@@ -11,21 +11,11 @@
 #   artifactPath: (Optional) The path to the artifact to be deployed.
 #
 parameters:
-  - name: vmImageName
-    type: string
-    default: "ubuntu-latest"
-  - name: environmentName
-    type: string
-    default: ""
-  - name: deployScriptPath
-    type: string
-    default: ""
-  - name: deployAction
-    type: string
-    default: "deploy"
-  - name: artifactPath
-    type: string
-    default: ""
+  vmImageName: "ubuntu-latest"
+  environmentName: ""
+  deployScriptPath: ""
+  deployAction: "deploy"
+  artifactPath: ""
 
 jobs:
   - deployment: PRDeployJob

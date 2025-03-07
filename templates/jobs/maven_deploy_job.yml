@@ -2,18 +2,10 @@
 # Job template for deploying the library artifact via Maven
 
 parameters:
-  - name: vmImageName
-    type: string
-    default: "ubuntu-latest"
-  - name: mavenPomFile
-    type: string
-    default: ""
-  - name: goals
-    type: string
-    default: ""
-  - name: mavenOptions
-    type: string
-    default: ""
+  vmImageName: "ubuntu-latest"
+  mavenPomFile: ""
+  goals: ""
+  mavenOptions: ""
 
 jobs:
   - job: Build_Library
