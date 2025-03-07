@@ -44,7 +44,7 @@ jobs:
           dockerfilePath: "**/Dockerfile"
           repository: ${{ parameters.imageRepository }}
           containerRegistry: ${{ parameters.dockerRegistryServiceConnection }}
-          tags: "$(tag)"
+          tags: $(tag)
           additionalArgs: "--secret id=settings,src=$(settings.secureFilePath)"
           # condition: eq(variables['prodBuild'], false)
       # - ${{ if(eq(variables['prodBuild'], false)) }}:
@@ -52,7 +52,7 @@ jobs:
         parameters:
           repository: ${{ parameters.imageRepository }}
           containerRegistry: ${{ parameters.dockerRegistryServiceConnection }}
-          tags: "$(tag)"
+          tags: $(tag)
           # condition: eq(variables['prodBuild'], false)
       # - template: ../tasks/ermetic_scan.yml
       #   parameters:
