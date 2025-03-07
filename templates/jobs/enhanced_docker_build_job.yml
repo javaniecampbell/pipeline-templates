@@ -10,10 +10,14 @@
 #   tagPrefix: (Optional) A prefix to use for the image tag.
 #
 parameters:
-  vmImageName: "ubuntu-latest"
-  dockerRegistryServiceConnection: ""
-  imageRepository: ""
-  tagPrefix: ""
+  - name: vmImageName
+    default: "ubuntu-latest"
+  - name: dockerRegistryServiceConnection
+    default: ""
+  - name: imageRepository
+    default: ""
+  - name: tagPrefix
+    default: ""
 
 jobs:
   - job: EnhancedDockerBuild

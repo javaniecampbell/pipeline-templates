@@ -2,10 +2,14 @@
 # Stage template for the Java 21 Spring Boot pipeline.
 
 parameters:
-  vmImageName: "ubuntu-latest"
-  dockerRegistryServiceConnection: ""
-  imageRepository: ""
-  containerRegistry: ""
+  - name: vmImageName
+    default: "ubuntu-latest"
+  - name: dockerRegistryServiceConnection
+    default: ""
+  - name: imageRepository
+    default: ""
+  - name: containerRegistry
+    default: ""
 
 stages:
   - stage: Build

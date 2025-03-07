@@ -9,11 +9,16 @@
 #
 # TODO: Use existing tasks templates for building and scanning 
 parameters:
-  dockerfilePath: '**/Dockerfile'
-  imageRepository: ''
-  dockerRegistryServiceConnection: ''
-  containerRegistry: ''
-  tagPrefix: ''
+  - name: dockerfilePath
+    default: '**/Dockerfile'
+  - name: imageRepository
+    default: ''
+  - name: dockerRegistryServiceConnection
+    default: ''
+  - name: containerRegistry
+    default: ''
+  - name: tagPrefix
+    default: ''
 
 steps:
 - task: Bash@3

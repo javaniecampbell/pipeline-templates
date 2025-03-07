@@ -1,12 +1,19 @@
 # templates/tasks/maven_build_functionapp.yml
 parameters:
-  mavenPomFile: ""
-  goals: "clean package"
-  testResultsFiles: "**/surefire-reports/TEST-*.xml"
-  javaHomeOption: "Path"
-  jdkDirectory: "/usr/lib/jvm/temurin-21-jdk-amd64"
-  mavenVersionOption: "Default"
-  mavenOptions: "-Xmx3072m"
+  - name: mavenPomFile
+    default: ""
+  - name: goals
+    default: "clean package"
+  - name: testResultsFiles
+    default: "**/surefire-reports/TEST-*.xml"
+  - name: javaHomeOption
+    default: "Path"
+  - name: jdkDirectory
+    default: "/usr/lib/jvm/temurin-21-jdk-amd64"
+  - name: mavenVersionOption
+    default: "Default"
+  - name: mavenOptions
+    default: "-Xmx3072m"
 
 steps:
   - task: Maven@3

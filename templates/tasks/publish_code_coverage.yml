@@ -1,6 +1,7 @@
 # templates/tasks/publish_code_coverage.yml
 parameters:
-  summaryFileLocation: ""
+  - name: summaryFileLocation
+    default: ""
 
 steps:
   - task: PublishCodeCoverageResults@2

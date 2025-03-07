@@ -2,11 +2,16 @@
 # Job template for executing Java tests
 
 parameters:
-  vmImageName: "ubuntu-latest"
-  mavenPomFile: ""
-  goals: ""
-  testResultsFiles: ""
-  MAVEN_OPTS: ""
+  - name: vmImageName
+    default: "ubuntu-latest"
+  - name: mavenPomFile
+    default: ""
+  - name: goals
+    default: ""
+  - name: testResultsFiles
+    default: ""
+  - name: MAVEN_OPTS
+    default: ""
 
 jobs:
   - job: Tests

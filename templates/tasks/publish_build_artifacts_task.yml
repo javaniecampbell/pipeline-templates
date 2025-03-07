@@ -1,6 +1,7 @@
 # templates/tasks/publish_build_artifacts.yml
 parameters:
-  artifactPath: ""
+  - name: artifactPath
+    default: ""
 
 steps:
   - task: PublishBuildArtifacts@1

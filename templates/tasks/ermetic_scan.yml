@@ -1,8 +1,11 @@
 # templates/tasks/ermetic_scan.yml
 parameters:
-  imageName: ""
-  registryUsername: ""
-  registryPassword: ""
+  - name: imageName
+    default: ""
+  - name: registryUsername
+    default: ""
+  - name: registryPassword
+    default: ""
 
 steps:
   - task: ErmeticContainerImageScan@1

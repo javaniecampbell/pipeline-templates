@@ -1,19 +1,32 @@
 # base-functionapp-pipeline.yml
 parameters:
-  vmImageName: "ubuntu-latest"
-  mavenPomFile: "pom.xml"
-  artifactDestination: "$(Build.ArtifactStagingDirectory)"
-  functionAppName: ""
-  azureSubscription: ""
-  resourceGroup: ""
-  deployScriptPath: "scripts/deploy_functionapp.sh"
-  deployEnvironment: "function-testing"
+  - name: vmImageName
+    default: "ubuntu-latest"
+  - name: mavenPomFile
+    default: "pom.xml"
+  - name: artifactDestination
+    default: "$(Build.ArtifactStagingDirectory)"
+  - name: functionAppName
+    default: ""
+  - name: azureSubscription
+    default: ""
+  - name: resourceGroup
+    default: ""
+  - name: deployScriptPath
+    default: "scripts/deploy_functionapp.sh"
+  - name: deployEnvironment
+    default: "function-testing"
   # Parameters for static analysis and telemetry:
-  sonarProjectKey: ""
-  sonarProjectName: ""
-  sonarHostUrl: "https://sonarcloud.io"
-  sonarLogin: ""
-  telemetryEndpoint: ""
+  - name: sonarProjectKey
+    default: ""
+  - name: sonarProjectName
+    default: ""
+  - name: sonarHostUrl
+    default: "https://sonarcloud.io"
+  - name: sonarLogin
+    default: ""
+  - name: telemetryEndpoint
+    default: ""
 
 trigger:
   branches:

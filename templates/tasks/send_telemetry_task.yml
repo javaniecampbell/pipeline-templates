@@ -1,9 +1,13 @@
 # templates/tasks/send_telemetry.yml
 parameters:
-  telemetryEndpoint: ""
-  buildNumber: "$(Build.BuildNumber)"
-  buildDuration: "" # Custom value: calculate or pass as parameter
-  status: ""
+  - name: telemetryEndpoint
+    default: ""
+  - name: buildNumber
+    default: "$(Build.BuildNumber)"
+  - name: buildDuration
+    default: "" # Custom value: calculate or pass as parameter
+  - name: status
+    default: ""
 
 steps:
   - task: Bash@3

@@ -1,20 +1,34 @@
 # base-nextjs-prod-pipeline.yml
 parameters:
-  vmImageName: 'ubuntu-latest'
-  installCommand: 'npm install'
-  buildCommand: 'npm run build'
-  artifactDestination: '$(Build.ArtifactStagingDirectory)'
-  deploymentName: ''
-  azureSubscription: ''
-  resourceGroup: ''
-  deployScriptPath: 'scripts/deploy_nextjs.sh'
-  deployEnvironment: 'production'
-  containerBuild: false
-  dockerfilePath: '**/Dockerfile'
-  imageRepository: ''
-  dockerRegistryServiceConnection: ''
-  containerRegistry: ''
-  tagPrefix: ''
+  - name: vmImageName
+    default: 'ubuntu-latest'
+  - name: installCommand
+    default: 'npm install'
+  - name: buildCommand
+    default: 'npm run build'
+  - name: artifactDestination
+    default: '$(Build.ArtifactStagingDirectory)'
+  - name: deploymentName
+    default: ''
+  - name: azureSubscription
+    default: ''
+  - name: resourceGroup
+    default: ''
+  - name: deployScriptPath
+    default: 'scripts/deploy_nextjs.sh'
+  - name: deployEnvironment
+    default: 'production'
+  - name: containerBuild: false
+  - name: dockerfilePath
+    default: '**/Dockerfile'
+  - name: imageRepository
+    default: ''
+  - name: dockerRegistryServiceConnection
+    default: ''
+  - name: containerRegistry
+    default: ''
+  - name: tagPrefix
+    default: ''
 
 trigger:
   branches:

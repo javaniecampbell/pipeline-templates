@@ -2,9 +2,12 @@
 # Job template for packaging and publishing Helm charts
 
 parameters:
-  vmImageName: "ubuntu-latest"
-  chartPath: ""
-  destination: ""
+  - name: vmImageName
+    default: "ubuntu-latest"
+  - name: chartPath
+    default: ""
+  - name: destination
+    default: ""
 
 jobs:
   - job: Helm

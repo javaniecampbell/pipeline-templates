@@ -1,7 +1,9 @@
 # templates/tasks/helm_package.yml
 parameters:
-  chartPath: ""
-  destination: ""
+  - name: chartPath
+    default: ""
+  - name: destination
+    default: ""
 
 steps:
   - task: HelmDeploy@1

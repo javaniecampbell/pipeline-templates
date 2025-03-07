@@ -1,15 +1,25 @@
 # templates/stages/nextjs_prod_build_stage.yml
 parameters:
-  vmImageName: "ubuntu-latest"
-  installCommand: "npm install"
-  buildCommand: "npm run build"
-  artifactDestination: ""
-  containerBuild: false
-  dockerfilePath: "**/Dockerfile"
-  imageRepository: ""
-  dockerRegistryServiceConnection: ""
-  containerRegistry: ""
-  tagPrefix: ""
+  - name: vmImageName
+    default: "ubuntu-latest"
+  - name: installCommand
+    default: "npm install"
+  - name: buildCommand
+    default: "npm run build"
+  - name: artifactDestination
+    default: ""
+  - name: containerBuild
+    default: false
+  - name: dockerfilePath
+    default: "**/Dockerfile"
+  - name: imageRepository
+    default: ""
+  - name: dockerRegistryServiceConnection
+    default: ""
+  - name: containerRegistry
+    default: ""
+  - name: tagPrefix
+    default: ""
 stages:
   - stage: Build
     displayName: "Build Stage - Next.js Production"

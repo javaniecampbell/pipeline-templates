@@ -1,12 +1,19 @@
 # templates/jobs/nextjs_prod_deploy_job.yml
 parameters:
-  vmImageName: "ubuntu-latest"
-  environmentName: ""
-  deployScriptPath: ""
-  artifactPath: ""
-  deploymentName: "" # e.g., the Kubernetes deployment name for Next.js
-  azureSubscription: ""
-  resourceGroup: ""
+  - name: vmImageName
+    default: "ubuntu-latest"
+  - name: environmentName
+    default: ""
+  - name: deployScriptPath
+    default: ""
+  - name: artifactPath
+    default: ""
+  - name: deploymentName
+    default: "" # e.g., the Kubernetes deployment name for Next.js
+  - name: azureSubscription
+    default: ""
+  - name: resourceGroup
+    default: ""
 jobs:
   - deployment: NextJsDeploy
     displayName: "Deploy Next.js Production App"

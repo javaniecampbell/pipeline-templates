@@ -1,13 +1,18 @@
 # templates/jobs/functionapp_build_job.yml
 parameters:
-  vmImageName: "ubuntu-latest"
-  mavenPomFile: ""
-  artifactPath: ""
-  artifactsFeeds: "AD_Applications_Feed"
+  - name: vmImageName
+    default: "ubuntu-latest"
+  - name: mavenPomFile
+    default: ""
+  - name: artifactPath
+    default: ""
+  - name: artifactsFeeds
+    default: "AD_Applications_Feed"
 
 jobs:
   - job: FunctionAppBuild
-    displayName: "Build and Test Function App"
+    displayName
+      default: "Build and Test Function App"
     pool:
       vmImage: ${{ parameters.vmImageName }}
     steps:

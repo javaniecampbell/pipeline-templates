@@ -1,8 +1,11 @@
 # templates/tasks/keyvault_pull.yml
 parameters:
-  azureSubscription: ""
-  KeyVaultName: ""
-  SecretsFilter: ""
+  - name: azureSubscription
+    default: ""
+  - name: KeyVaultName
+    default: ""
+  - name: SecretsFilter
+    default: ""
 
 steps:
   - task: AzureKeyVault@2

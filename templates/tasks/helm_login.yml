@@ -1,8 +1,11 @@
 # templates/tasks/helm_login.yml
 parameters:
-  registry: ""
-  secretVariable: ""
-  userVariable: ""
+  - name: registry
+    default: ""
+  - name: secretVariable
+    default: ""
+  - name: userVariable
+    default: ""
 
 steps:
   - task: Bash@3

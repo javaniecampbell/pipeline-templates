@@ -7,11 +7,16 @@
 #   namespace: Kubernetes namespace.
 #   additionalArgs: Additional command line arguments.
 parameters:
-  command: "upgrade"
-  releaseName: ""
-  chartPath: ""
-  namespace: ""
-  additionalArgs: ""
+  - name: command
+    default: "upgrade"
+  - name: releaseName
+    default: ""
+  - name: chartPath
+    default: ""
+  - name: namespace
+    default: ""
+  - name: additionalArgs
+    default: ""
 
 steps:
   - task: HelmDeploy@1

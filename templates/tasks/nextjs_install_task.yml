@@ -1,6 +1,7 @@
 # templates/tasks/nextjs_install_task.yml
 parameters:
-  installCommand: "npm install"
+  - name: installCommand
+    default: "npm install"
 steps:
   - task: Bash@3
     displayName: "Install Next.js Dependencies"

@@ -1,14 +1,23 @@
 # templates/jobs/functionapp_build_job.yml
 parameters:
-  vmImageName: "ubuntu-latest"
-  mavenPomFile: ""
-  artifactPath: ""
-  artifactsFeeds: "AD_Applications_Feed"
-  sonarProjectKey: ""
-  sonarProjectName: ""
-  sonarHostUrl: "https://sonarcloud.io"
-  sonarLogin: ""
-  telemetryEndpoint: ""
+  - name: vmImageName
+    default: "ubuntu-latest"
+  - name: mavenPomFile
+    default: ""
+  - name: artifactPath
+    default: ""
+  - name: artifactsFeeds
+    default: "AD_Applications_Feed"
+  - name: sonarProjectKey
+    default: ""
+  - name: sonarProjectName
+    default: ""
+  - name: sonarHostUrl
+    default: "https://sonarcloud.io"
+  - name: sonarLogin
+    default: ""
+  - name: telemetryEndpoint
+    default: ""
 
 jobs:
   - job: FunctionAppBuild

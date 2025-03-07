@@ -6,7 +6,8 @@
 #   vmImageName: Build agent VM image.
 
 parameters:
-  vmImageName: "ubuntu-latest"
+  - name: vmImageName
+    default: "ubuntu-latest"
 
 trigger:
   branches:

@@ -9,10 +9,14 @@
 #   artifactPath: (Optional) Path to the artifact(s) to be deployed.
 
 parameters:
-  vmImageName: "ubuntu-latest"
-  environmentName: "" # e.g., 'staging' or 'production'
-  deployScriptPath: "" # Optional: a script to execute for deployment
-  artifactPath: "" # Optional: location of the artifact to deploy
+  - name: vmImageName
+    default: "ubuntu-latest"
+  - name: environmentName
+    default: "" # e.g., 'staging' or 'production'
+  - name: deployScriptPath
+    default: "" # Optional: a script to execute for deployment
+  - name: artifactPath
+    default: "" # Optional: location of the artifact to deploy
 
 stages:
   - stage: Deploy

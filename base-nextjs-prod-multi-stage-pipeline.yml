@@ -1,30 +1,52 @@
 # base-nextjs-prod-multi-stage-pipeline.yml
 parameters:
-  vmImageName: "ubuntu-latest"
-  installCommand: "npm install"
-  buildCommand: "npm run build"
-  artifactDestination: "$(Build.ArtifactStagingDirectory)"
+   - name: vmImageName
+     default: "ubuntu-latest"
+   - name: installCommand
+     default: "npm install"
+   - name: buildCommand
+     default: "npm run build"
+   - name: artifactDestination
+     default: "$(Build.ArtifactStagingDirectory)"
   # Deployment-specific parameters for different environments:
-  qaDeployEnvironment: "qa"
-  stagingDeployEnvironment: "staging"
-  prodDeployEnvironment: "production"
-  deployScriptPath: "scripts/deploy_nextjs.sh"
-  deploymentName: "nextjs-app"
-  azureSubscription: "MyAzureServiceConnection"
-  resourceGroup: "my-resource-group"
+   - name: qaDeployEnvironment
+     default: "qa"
+   - name: stagingDeployEnvironment
+     default: "staging"
+   - name: prodDeployEnvironment
+     default: "production"
+   - name: deployScriptPath
+     default: "scripts/deploy_nextjs.sh"
+   - name: deploymentName
+     default: "nextjs-app"
+   - name: azureSubscription
+     default: "MyAzureServiceConnection"
+   - name: resourceGroup
+     default: "my-resource-group"
   # SonarQube & Telemetry
-  sonarProjectKey: "my-sonar-project-key"
-  sonarProjectName: "MyNextJsApp"
-  sonarHostUrl: "https://sonarcloud.io"
-  sonarLogin: "$(SONAR_TOKEN)"
-  telemetryEndpoint: "https://mytelemetryendpoint/api/log"
+   - name: sonarProjectKey
+     default: "my-sonar-project-key"
+   - name: sonarProjectName
+     default: "MyNextJsApp"
+   - name: sonarHostUrl
+     default: "https://sonarcloud.io"
+   - name: sonarLogin
+     default: "$(SONAR_TOKEN)"
+   - name: telemetryEndpoint
+     default: "https://mytelemetryendpoint/api/log"
   # Container build parameters (optional)
-  containerBuild: true
-  dockerfilePath: "Dockerfile"
-  imageRepository: "nextjs-prod"
-  dockerRegistryServiceConnection: "MyDockerServiceConnection"
-  containerRegistry: "mycontainerregistry.azurecr.io"
-  tagPrefix: "nextjs-prod-"
+   - name: containerBuild
+     default: true
+   - name: dockerfilePath
+     default: "Dockerfile"
+   - name: imageRepository
+     default: "nextjs-prod"
+   - name: dockerRegistryServiceConnection
+     default: "MyDockerServiceConnection"
+   - name: containerRegistry
+     default: "mycontainerregistry.azurecr.io"
+   - name: tagPrefix
+     default: "nextjs-prod-"
 
 trigger:
   branches:
