@@ -8,5 +8,5 @@ steps:
   - task: Bash@3
     inputs:
       targetType: "inline"
-      script: "echo ${{ parameters.secretVariable }} | helm registry login ${{ parameters.registry }} -u ${{ parameters.userVariable }} --password-stdin"
+      script: "echo $(${{ parameters.secretVariable }}) | helm registry login ${{ parameters.registry }} -u $(${{ parameters.userVariable }}) --password-stdin"
     displayName: "Helm Registry Login"
