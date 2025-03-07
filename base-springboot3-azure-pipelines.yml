@@ -63,7 +63,7 @@ stages:
       prodHelmChartContainerRegistry: ${{ parameters.prodHelmChartContainerRegistry }}
       helmChartPath: ${{ parameters.helmChartPath }}
       artifactDestination: ${{ parameters.artifactDestination }}
-      failIfCoverageEmpty: true
+      failIfCoverageEmpty: ${{ parameters.failIfCoverageEmpty }}
       # # Parameters for PR deployment stage:
       deployEnvironment: "pr-testing"
       # deployScriptPath: "scripts/deploy_springboot.sh"
