@@ -11,7 +11,7 @@ parameters:
   - name: containerRegistry
     default: ""
   - name: failIfCoverageEmpty
-    type: boolean
+    # type: boolean
     default: false
 
 stages:

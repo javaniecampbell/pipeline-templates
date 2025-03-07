@@ -13,7 +13,7 @@ parameters:
   - name: MAVEN_OPTS
     default: ""
   - name: failIfCoverageEmpty
-    type: boolean
+    # type: boolean
     default: false
 
 jobs:
