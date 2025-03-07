@@ -23,4 +23,4 @@ steps:
                 eval $(parse_yaml ${{ parameters.chartPath }}/Chart.yaml "VARIABLES_")
                 CHART_NAME=$(echo $VARIABLES_name'-'$VARIABLES_version.tgz)
                 echo "##vso[task.setvariable variable=chartName]$CHART_NAME"
-      displayName: Generate chart name
+    displayName: Generate chart name
