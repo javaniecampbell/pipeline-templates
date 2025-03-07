@@ -40,7 +40,7 @@ parameters:
     default: "development"
     # Options: "development", "pr-testing", "production"
   - name: failIfCoverageEmpty
-    type: boolean
+    # type: boolean
     default: false
 trigger:
   branches:
