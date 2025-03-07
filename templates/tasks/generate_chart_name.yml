@@ -1,4 +1,6 @@
 # templates/tasks/generate_chart_name.yml
+parameters:
+  chartPath: ""
 steps:
   - script: |
       function parse_yaml {
@@ -8,7 +10,7 @@ steps:
           local fs=$(echo @|tr @ '\034')
           sed -ne "s|^\($s\):|\1|" \
               -e "s|^\($s\)\($w\)$s:$s[\"']\(.*\)[\"']$s\$|\1$fs\2$fs\3|p" \
-              -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  helm-chart/Chart.yaml |
+              -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  ${{ parameters.chartPath }}/Chart.yaml |
           awk -F"$fs" '{
             indent = length($1)/2;
             vname[indent] = $2;
@@ -19,7 +21,7 @@ steps:
             }
           }'
       }
-      eval $(parse_yaml helm-chart/Chart.yaml "VARIABLES_")
+      eval $(parse_yaml ${{ parameters.chartPath }}/Chart.yaml "VARIABLES_")
       CHART_NAME=$(echo $VARIABLES_name'-'$VARIABLES_version.tgz)
       echo "##vso[task.setvariable variable=chartName]$CHART_NAME"
     displayName: "Generate Chart Name"
