@@ -15,20 +15,28 @@
 #
 parameters:
   - name: vmImageName
+    type: string
     default: "ubuntu-latest"
   - name: mavenPomFile
+    type: string
     default: "pom.xml"
   - name: artifactDestination
+    type: string
     default: "$(Build.ArtifactStagingDirectory)"
   - name: functionAppName
+    type: string
     default: ""
   - name: azureSubscription
+    type: string
     default: ""
   - name: resourceGroup
+    type: string
     default: ""
   - name: deployScriptPath
+    type: string
     default: "scripts/deploy_functionapp.sh"
   - name: deployEnvironment
+    type: string
     default: "function-testing"
 
 trigger:

@@ -9,8 +9,10 @@
 
 parameters:
   - name: summaryFileLocation
+    type: string
     default: ""
   - name: failIfCoverageEmpty
+    type: boolean
     default: true
 
 steps:

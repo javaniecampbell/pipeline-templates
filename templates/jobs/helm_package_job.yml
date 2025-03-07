@@ -3,10 +3,13 @@
 
 parameters:
   - name: vmImageName
+    type: string
     default: "ubuntu-latest"
   - name: chartPath
+    type: string
     default: ""
   - name: destination
+    type: string
     default: ""
 
 jobs:

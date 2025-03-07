@@ -10,12 +10,16 @@
 #
 parameters:
   - name: storageAccountName
+    type: string
     default: ""
   - name: storageContainerName
+    type: string
     default: ""
   - name: metadataFile
+    type: string
     default: "artifact-metadata.json"
   - name: blobNamePrefix
+    type: string
     default: "artifact-metadata"
 
 steps:

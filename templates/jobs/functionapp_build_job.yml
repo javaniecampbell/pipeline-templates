@@ -1,12 +1,16 @@
 # templates/jobs/functionapp_build_job.yml
 parameters:
   - name: vmImageName
+    type: string
     default: "ubuntu-latest"
   - name: mavenPomFile
+    type: string
     default: ""
   - name: artifactPath
+    type: string
     default: ""
   - name: artifactsFeeds
+    type: string
     default: "AD_Applications_Feed"
 
 jobs:

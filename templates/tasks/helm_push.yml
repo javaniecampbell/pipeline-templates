@@ -1,6 +1,7 @@
 # templates/tasks/helm_push.yml
 parameters:
   - name: destinationRegistry
+    type: string
     default: ""
 
 steps:

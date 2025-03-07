@@ -3,14 +3,19 @@
 
 parameters:
   - name: vmImageName
+    type: string
     default: "ubuntu-latest"
   - name: mavenPomFile
+    type: string
     default: ""
   - name: goals
+    type: string
     default: ""
   - name: testResultsFiles
+    type: string
     default: ""
   - name: MAVEN_OPTS
+    type: string
     default: ""
   - name: failIfCoverageEmpty
     # type: boolean

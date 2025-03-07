@@ -1,10 +1,13 @@
 # templates/tasks/java_tool_installer.yml
 parameters:
   - name: versionSpec
+    type: string
     default: "21"
   - name: jdkArchitectureOption
+    type: string
     default: "x64"
   - name: jdkSourceOption
+    type: string
     default: "PreInstalled"
 
 steps:

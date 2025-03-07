@@ -10,12 +10,16 @@
 
 parameters:
   - name: vmImageName
+    type: string
     default: "ubuntu-latest"
   - name: environmentName
+    type: string
     default: "" # e.g., 'staging' or 'production'
   - name: deployScriptPath
+    type: string
     default: "" # Optional: a script to execute for deployment
   - name: artifactPath
+    type: string
     default: "" # Optional: location of the artifact to deploy
 
 stages:

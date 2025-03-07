@@ -2,10 +2,13 @@
 # Stage template for building a Java Function App.
 parameters:
   - name: vmImageName
+    type: string
     default: "ubuntu-latest"
   - name: mavenPomFile
+    type: string
     default: ""
   - name: artifactDestination
+    type: string
     default: ""
 
 stages:

@@ -3,15 +3,19 @@
 
 parameters:
   - name: vmImageName
+    type: string
     default: "ubuntu-latest"
   - name: dockerRegistryServiceConnection
+    type: string
     default: ""
   - name: imageRepository
+    type: string
     default: ""
   - name: containerRegistry
+    type: string
     default: ""
   - name: failIfCoverageEmpty
-    # type: boolean
+    type: boolean
     default: false
 
 stages:

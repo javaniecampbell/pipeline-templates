@@ -8,14 +8,19 @@
 #   additionalArgs: Additional command line arguments.
 parameters:
   - name: command
+    type: string
     default: "upgrade"
   - name: releaseName
+    type: string
     default: ""
   - name: chartPath
+    type: string
     default: ""
   - name: namespace
+    type: string
     default: ""
   - name: additionalArgs
+    type: string
     default: ""
 
 steps:

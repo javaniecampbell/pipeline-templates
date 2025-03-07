@@ -11,12 +11,16 @@
 #
 parameters:
   - name: vmImageName
+    type: string
     default: "ubuntu-latest"
   - name: dockerRegistryServiceConnection
+    type: string
     default: ""
   - name: imageRepository
+    type: string
     default: ""
   - name: tagPrefix
+    type: string
     default: ""
 
 jobs:

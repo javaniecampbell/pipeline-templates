@@ -1,12 +1,16 @@
 # templates/tasks/sonarqube_analysis.yml
 parameters:
   - name: sonarProjectKey
+    type: string
     default: ""
   - name: sonarProjectName
+    type: string
     default: ""
   - name: sonarHostUrl
+    type: string
     default: "https://sonarcloud.io"
   - name: sonarLogin
+    type: string
     default: ""
 
 steps:

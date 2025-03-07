@@ -1,6 +1,7 @@
 # templates/tasks/nextjs_install_task.yml
 parameters:
   - name: installCommand
+    type: string
     default: "npm install"
 steps:
   - task: Bash@3

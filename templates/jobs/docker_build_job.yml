@@ -3,13 +3,13 @@
 
 parameters:
   - name: vmImageName
-    deafult: "ubuntu-latest"
+    default: "ubuntu-latest"
   - name: dockerRegistryServiceConnection
-    deafult: ""
+    default: ""
   - name: imageRepository
-    deafult: ""
+    default: ""
   - name: containerRegistry
-    deafult: ""
+    default: ""
 
 jobs:
   - job: Docker

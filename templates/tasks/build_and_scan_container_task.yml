@@ -10,14 +10,19 @@
 # TODO: Use existing tasks templates for building and scanning 
 parameters:
   - name: dockerfilePath
+    type: string
     default: '**/Dockerfile'
   - name: imageRepository
+    type: string
     default: ''
   - name: dockerRegistryServiceConnection
+    type: string
     default: ''
   - name: containerRegistry
+    type: string
     default: ''
   - name: tagPrefix
+    type: string
     default: ''
 
 steps:

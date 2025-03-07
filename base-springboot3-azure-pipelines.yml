@@ -17,30 +17,41 @@
 
 parameters:
   - name: vmImageName
+    type: string
     default: "ubuntu-latest"
   - name: dockerRegistryServiceConnection
+    type: string
     default: ""
   - name: prodDockerRegistryServiceConnection
+    type: string
     default: ""
   - name: imageRepository
+    type: string
     default: ""
   - name: containerRegistry
+    type: string
     default: ""
   - name: devHelmChartContainerRegistry
+    type: string
     default: ""
   - name: prodHelmChartContainerRegistry
+    type: string
     default: ""
   - name: helmChartPath
+    type: string
     default: "helm-chart"
   - name: artifactDestination
+    type: string
     default: "$(Build.ArtifactStagingDirectory)"
   - name: deployScriptPath
+    type: string
     default: "" # Optional: specify a script to run during deployment
   - name: deployEnvironment
+    type: string
     default: "development"
     # Options: "development", "pr-testing", "production"
   - name: failIfCoverageEmpty
-    # type: boolean
+    type: boolean
     default: false
 trigger:
   branches:

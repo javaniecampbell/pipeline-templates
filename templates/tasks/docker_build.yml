@@ -1,14 +1,19 @@
 # templates/tasks/docker_build.yml
 parameters:
   - name: dockerfilePath
+    type: string
     default: ""
   - name: repository
+    type: string
     default: ""
   - name: containerRegistry
+    type: string
     default: ""
   - name: tags
+    type: string
     default: ""
   - name: additionalArgs
+    type: string
     default: ""
 
 steps:

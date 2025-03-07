@@ -1,18 +1,25 @@
 # templates/tasks/maven_test.yml
 parameters:
   - name: mavenPomFile
+    type: string
     default: ""
   - name: goals
+    type: string
     default: ""
   - name: testResultsFiles
+    type: string
     default: ""
   - name: javaHomeOption
+    type: string
     default: "Path"
   - name: jdkDirectory
+    type: string
     default: ""
   - name: mavenVersionOption
+    type: string
     default: "Default"
   - name: mavenOptions
+    type: string
     default: ""
 
 steps:

@@ -1,8 +1,10 @@
 # templates/tasks/helm_package.yml
 parameters:
   - name: chartPath
+    type: string
     default: ""
   - name: destination
+    type: string
     default: ""
 
 steps:

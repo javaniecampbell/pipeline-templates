@@ -3,6 +3,7 @@
 
 parameters:
   - name: vmImageName
+    type: string
     default: "ubuntu-latest"
 
 stages:
