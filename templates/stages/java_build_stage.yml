@@ -10,6 +10,9 @@ parameters:
     default: ""
   - name: containerRegistry
     default: ""
+  - name: failIfCoverageEmpty
+    type: boolean
+    default: false
 
 stages:
   - stage: Build
@@ -22,6 +25,7 @@ stages:
           goals: "clean test"
           testResultsFiles: "**/surefire-reports/TEST-*.xml"
           MAVEN_OPTS: "-Dmaven.compiler.release=21"
+          failIfCoverageEmpty: ${{ parameters.failIfCoverageEmpty }}
       - template: ../jobs/helm_package_job.yml
         parameters:
           vmImageName: ${{ parameters.vmImageName }}

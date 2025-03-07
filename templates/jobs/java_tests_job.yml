@@ -12,6 +12,9 @@ parameters:
     default: ""
   - name: MAVEN_OPTS
     default: ""
+  - name: failIfCoverageEmpty
+    type: boolean
+    default: false
 
 jobs:
   - job: Tests
@@ -37,3 +40,5 @@ jobs:
       - template: ../tasks/publish_code_coverage.yml
         parameters:
           summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/jacoco/jacoco.xml"
+          failIfCoverageEmpty: ${{ parameters.failIfCoverageEmpty }}
+

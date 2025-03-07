@@ -1,10 +1,20 @@
 # templates/tasks/publish_code_coverage.yml
+#
+# Task template for publishing code coverage results
+#
+# Parameters:
+#   summaryFileLocation: Location of the code coverage summary file.
+#   failIfCoverageEmpty: Fail the build if the code coverage is empty.
+#
+
 parameters:
   - name: summaryFileLocation
     default: ""
+  - name: failIfCoverageEmpty
+    default: true
 
 steps:
   - task: PublishCodeCoverageResults@2
     inputs:
       summaryFileLocation: ${{ parameters.summaryFileLocation }}
-      failIfCoverageEmpty: true
+      failIfCoverageEmpty: ${{ parameters.failIfCoverageEmpty }}

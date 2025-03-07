@@ -39,6 +39,9 @@ parameters:
   - name: deployEnvironment
     default: "development"
     # Options: "development", "pr-testing", "production"
+  - name: failIfCoverageEmpty
+    type: boolean
+    default: false
 trigger:
   branches:
     include:
@@ -60,6 +63,7 @@ stages:
       prodHelmChartContainerRegistry: ${{ parameters.prodHelmChartContainerRegistry }}
       helmChartPath: ${{ parameters.helmChartPath }}
       artifactDestination: ${{ parameters.artifactDestination }}
+      failIfCoverageEmpty: true
       # # Parameters for PR deployment stage:
       deployEnvironment: "pr-testing"
       # deployScriptPath: "scripts/deploy_springboot.sh"
