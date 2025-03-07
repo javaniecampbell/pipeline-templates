@@ -35,7 +35,7 @@ jobs:
         condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')
       - template: ../tasks/ermetic_scan.yml
         parameters:
-          imageName: "$(containerRegistry)/${{ parameters.imageRepository }}:$(tag)"
+          imageName: $(${{ parameters.containerRegistry }})/${{ parameters.imageRepository }}:$(tag)
           registryUsername: "$(CONTAINER_REGISTRY_USERNAME)"
           registryPassword: "$(CONTAINER_REGISTRY_PASSWORD)"
       # - ${{ if(eq(variables['prodBuild'], false)) }}:
