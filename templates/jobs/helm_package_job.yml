@@ -5,6 +5,7 @@ parameters:
   vmImageName: "ubuntu-latest"
   chartPath: ""
   destination: ""
+  devHelmChartContainerRegistry: ""
 
 jobs:
   - job: Helm
@@ -38,9 +39,9 @@ jobs:
           SecretsFilter: "aks-acr-sp-id,aks-acr-sp-pwd"
       - template: ../tasks/helm_login.yml
         parameters:
-          registry: "$(devHelmChartContainerRegistry)"
+          registry: ${{ parameters.devHelmChartContainerRegistry }}
           secretVariable: "aks-acr-sp-pwd"
           userVariable: "aks-acr-sp-id"
       - template: ../tasks/helm_push.yml
         parameters:
-          destinationRegistry: "$(devHelmChartContainerRegistry)"
+          destinationRegistry: ${{ parameters.devHelmChartContainerRegistry }}

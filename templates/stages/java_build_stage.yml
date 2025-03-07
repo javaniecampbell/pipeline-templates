@@ -7,6 +7,7 @@ parameters:
   imageRepository: ""
   containerRegistry: ""
   failIfCoverageEmpty: false
+  devHelmChartContainerRegistry: ""
 
 stages:
   - stage: Build
@@ -24,7 +25,8 @@ stages:
         parameters:
           vmImageName: ${{ parameters.vmImageName }}
           chartPath: "helm-chart"
-          destination: "$(Build.ArtifactStagingDirectory)"
+          destination: $(Build.ArtifactStagingDirectory)
+          devHelmChartContainerRegistry: ${{ parameters.devHelmChartContainerRegistry }}
       - template: ../jobs/docker_build_job.yml
         parameters:
           vmImageName: ${{ parameters.vmImageName }}
